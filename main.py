@@ -6,6 +6,7 @@ from json import load, dump
 from time import time
 from enchant import Dict
 
+
 class Game:
     def __init__(self, master: Tk) -> None:
         self.dictionary = Dict("en_US")
@@ -14,7 +15,7 @@ class Game:
             with open('scores.json', 'r') as f:
                 self.scores = load(f)
         else:
-            self.scores: defaultdict[str | None , int] = defaultdict(int)
+            self.scores: defaultdict[str | None, int] = defaultdict(int)
 
         self.master: Tk = master
         self.word_length: int = 3
@@ -35,7 +36,8 @@ class Game:
             elapsed_time: float = time() - self.start_time
             if elapsed_time > self.time_limit:
                 self.label.config(text="Time's up. Game Over.")
-                player_name: str | None = askstring("Input", "Enter your name:")
+                player_name: str | None = askstring(
+                    "Input", "Enter your name:")
                 self.save_score(player_name, self.score)
                 self.show_leaderboard()
                 return
@@ -52,7 +54,8 @@ class Game:
         self.time_limit += 2
         self.entry.delete(0, 'end')
         self.start_time = time()
-        self.label.config(text=f"Enter a word of length {self.word_length} in {self.time_limit} seconds. Score: {self.score}")
+        self.label.config(text=f"Enter a word of length {self.word_length} in {
+                          self.time_limit} seconds. Score: {self.score}")
 
     def save_score(self, name: str | None, score: int) -> None:
         self.scores[name] = score
@@ -62,9 +65,11 @@ class Game:
     def show_leaderboard(self) -> None:
         leaderboard_window = Toplevel(self.master)
         leaderboard_window.title("Leaderboard")
-        sorted_scores: list[tuple[str | None, int]] = sorted([(name, score) for name, score in self.scores.items() if score > 0], key=lambda x: x[1], reverse=True)
+        sorted_scores: list[tuple[str | None, int]] = sorted(
+            [(name, score) for name, score in self.scores.items() if score > 0], key=lambda x: x[1], reverse=True)
         for i, (name, score) in enumerate(sorted_scores):
             Label(leaderboard_window, text=f"{name}: {score}").grid(row=i)
+
 
 root: Tk = Tk()
 root.geometry("800x600")
