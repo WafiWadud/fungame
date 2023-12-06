@@ -4,11 +4,11 @@ from tkinter.simpledialog import askstring
 from os.path import isfile
 from json import load, dump
 from time import time
+from enchant import Dict
 
 class Game:
     def __init__(self, master: Tk) -> None:
-        with open('dictionary.txt', 'r') as f:
-            self.dictionary = set(f.read().splitlines())
+        self.dictionary = Dict("en_US")
 
         if isfile('scores.json'):
             with open('scores.json', 'r') as f:
@@ -41,7 +41,7 @@ class Game:
                 return
 
             word: str = self.entry.get()
-            if len(word) >= self.word_length and word in self.dictionary and word not in self.used_words:
+            if len(word) >= self.word_length and self.dictionary.check(word) and word not in self.used_words:
                 self.score += 10
                 self.word_length += 1
                 self.time_limit += 2

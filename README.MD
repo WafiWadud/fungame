@@ -10,10 +10,12 @@ For this game to run you need at least
 
 - Python 3.10 or newer
 - Tkinter
+- pyenchant with libenchant and nuspell or aspell-en
 - And some friends to compete with (Or not)
 
-#### Misc
+For Arch
 
-Didn't find some words you knew about?
-
-No problem just change the dictionary.txt and if you can then please submit a pull request.
+```bash
+pip install pyenchant
+sudo pacman -S libenchant aspell-en nuspell
+```
