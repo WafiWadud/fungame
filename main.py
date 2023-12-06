@@ -31,8 +31,8 @@ class Game:
         self.master.after(1000, self.update)
 
     def update(self) -> None:
-        elapsed_time: float = time() - self.start_time
         if self.word_length != 73:
+            elapsed_time: float = time() - self.start_time
             if elapsed_time > self.time_limit:
                 self.label.config(text="Time's up. Game Over.")
                 player_name: str | None = askstring("Input", "Enter your name:")
@@ -42,14 +42,17 @@ class Game:
 
             word: str = self.entry.get()
             if len(word) >= self.word_length and self.dictionary.check(word) and word not in self.used_words:
-                self.score += 10
-                self.word_length += 1
-                self.time_limit += 2
-                self.entry.delete(0, 'end')
-                self.start_time = time()
-                self.label.config(text=f"Enter a word of length {self.word_length} in {self.time_limit} seconds. Score: {self.score}")
+                self.level_up()
         self.master.after(1000, self.update)
         return
+
+    def level_up(self):
+        self.score += 10
+        self.word_length += 1
+        self.time_limit += 2
+        self.entry.delete(0, 'end')
+        self.start_time = time()
+        self.label.config(text=f"Enter a word of length {self.word_length} in {self.time_limit} seconds. Score: {self.score}")
 
     def save_score(self, name: str | None, score: int) -> None:
         self.scores[name] = score
