@@ -46,7 +46,7 @@ class Game:
         self.master.after(1000, self.update)
         return
 
-    def level_up(self):
+    def level_up(self) -> None:
         self.score += 10
         self.word_length += 1
         self.time_limit += 2
