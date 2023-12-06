@@ -19,3 +19,5 @@ For Arch
 pip install pyenchant
 sudo pacman -S libenchant aspell-en nuspell
 ```
+
+Other linux users try yourself
