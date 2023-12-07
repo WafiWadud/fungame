@@ -8,14 +8,27 @@ from enchant import Dict
 
 
 class Game:
+    """
+    Represents a word game.
+
+    Args:
+        master: The Tkinter root window.
+
+    Attributes:
+        dictionary: The dictionary object for word validation.
+        scores: A dictionary to store player scores.
+        word_length: The length of the word to be entered.
+        time_limit: The time limit for each round.
+        score: The player's current score.
+        start_time: The start time of the game.
+        used_words: A set of words already used.
+        entry: The Tkinter Entry widget for word input.
+        label: The Tkinter Label widget for displaying game information.
+    """
+
     def __init__(self, master: Tk) -> None:
         self.dictionary = Dict("en_US")
-
-        if isfile('scores.json'):
-            with open('scores.json', 'r') as f:
-                self.scores = load(f)
-        else:
-            self.scores: defaultdict[str | None, int] = defaultdict(int)
+        self.scores = load(open('scores.json', 'r')) if isfile('scores.json') else defaultdict(int)
 
         self.master: Tk = master
         self.word_length: int = 3
@@ -33,20 +46,25 @@ class Game:
 
     def update(self) -> None:
         if self.word_length != 73:
-            elapsed_time: float = time() - self.start_time
-            if elapsed_time > self.time_limit:
-                self.label.config(text="Time's up. Game Over.")
-                player_name: str | None = askstring(
-                    "Input", "Enter your name:")
-                self.save_score(player_name, self.score)
-                self.show_leaderboard()
+            if self.is_time_up():
+                self.end_game()
                 return
-
-            word: str = self.entry.get()
-            if len(word) >= self.word_length and self.dictionary.check(word) and word not in self.used_words:
-                self.level_up()
+            self.check_and_update_word()
         self.master.after(1000, self.update)
-        return
+
+    def is_time_up(self) -> bool:
+        return time() - self.start_time > self.time_limit
+
+    def end_game(self) -> None:
+        self.label.config(text="Time's up. Game Over.")
+        player_name = askstring("Input", "Enter your name:")
+        self.save_score(player_name, self.score)
+        self.show_leaderboard()
+
+    def check_and_update_word(self) -> None:
+        word = self.entry.get()
+        if len(word) >= self.word_length and self.dictionary.check(word) and word not in self.used_words:
+            self.level_up()
 
     def level_up(self) -> None:
         self.score += 10
@@ -54,8 +72,7 @@ class Game:
         self.time_limit += 2
         self.entry.delete(0, 'end')
         self.start_time = time()
-        self.label.config(text=f"Enter a word of length {self.word_length} in {
-                          self.time_limit} seconds. Score: {self.score}")
+        self.label.config(text=f"Enter a word of length {self.word_length} in {self.time_limit} seconds. Score: {self.score}")
 
     def save_score(self, name: str | None, score: int) -> None:
         self.scores[name] = score
