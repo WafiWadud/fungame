@@ -16,19 +16,27 @@ class Game:
 
     Attributes:
         dictionary: The dictionary object for word validation.
-        scores: A dictionary to store player scores.
+        scores: The scores dictionary.
+        master: The Tkinter root window.
         word_length: The length of the word to be entered.
-        time_limit: The time limit for each round.
-        score: The player's current score.
+        time_limit: The time limit for each word entry.
+        score: The current score.
         start_time: The start time of the game.
-        used_words: A set of words already used.
+        used_words: The set of words already used.
         entry: The Tkinter Entry widget for word input.
         label: The Tkinter Label widget for displaying game information.
     """
 
     def __init__(self, master: Tk) -> None:
+        """
+        Initializes a Game object.
+
+        Args:
+            master: The Tkinter root window.
+        """
         self.dictionary = Dict("en_US")
-        self.scores = load(open('scores.json', 'r')) if isfile('scores.json') else defaultdict(int)
+        self.scores = load(open('scores.json', 'r')) if isfile(
+            'scores.json') else defaultdict(int)
 
         self.master: Tk = master
         self.word_length: int = 3
@@ -45,6 +53,12 @@ class Game:
         self.master.after(1000, self.update)
 
     def update(self) -> None:
+        """
+        Updates the game state.
+
+        Returns:
+            None
+        """
         if self.word_length != 73:
             if self.is_time_up():
                 self.end_game()
@@ -53,33 +67,74 @@ class Game:
         self.master.after(1000, self.update)
 
     def is_time_up(self) -> bool:
+        """
+        Checks if the time limit has been reached.
+
+        Returns:
+            bool: True if time is up, False otherwise.
+        """
         return time() - self.start_time > self.time_limit
 
     def end_game(self) -> None:
+        """
+        Ends the game and displays the final score.
+
+        Returns:
+            None
+        """
         self.label.config(text="Time's up. Game Over.")
         player_name = askstring("Input", "Enter your name:")
         self.save_score(player_name, self.score)
         self.show_leaderboard()
 
     def check_and_update_word(self) -> None:
+        """
+        Checks the validity of the entered word and updates the game state accordingly.
+
+        Returns:
+            None
+        """
         word = self.entry.get()
         if len(word) >= self.word_length and self.dictionary.check(word) and word not in self.used_words:
             self.level_up()
 
     def level_up(self) -> None:
+        """
+        Increases the game level and updates the game state.
+
+        Returns:
+            None
+        """
         self.score += 10
         self.word_length += 1
         self.time_limit += 2
         self.entry.delete(0, 'end')
         self.start_time = time()
-        self.label.config(text=f"Enter a word of length {self.word_length} in {self.time_limit} seconds. Score: {self.score}")
+        self.label.config(text=f"Enter a word of length {self.word_length} in {
+                          self.time_limit} seconds. Score: {self.score}")
 
     def save_score(self, name: str | None, score: int) -> None:
+        """
+        Saves the player's score.
+
+        Args:
+            name: The name of the player.
+            score: The player's score.
+
+        Returns:
+            None
+        """
         self.scores[name] = score
         with open('scores.json', 'w') as f:
             dump(self.scores, f)
 
     def show_leaderboard(self) -> None:
+        """
+        Displays the leaderboard.
+
+        Returns:
+            None
+        """
         leaderboard_window = Toplevel(self.master)
         leaderboard_window.title("Leaderboard")
         sorted_scores: list[tuple[str | None, int]] = sorted(
