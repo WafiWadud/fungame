@@ -21,3 +21,9 @@ sudo pacman -S libenchant aspell-en nuspell
 ```
 
 Other linux users try yourself
+#### Other builds
+
+if you want to run the compiled version go to the builds directory and copy the .so file and run
+```bash
+python3 -c 'import main'
+```
