@@ -34,8 +34,8 @@ class Game:
         Args:
             master: The Tkinter root window.
         """
-        self.dictionary: Dict = Dict("en_US")
-        self.scores: defaultdict = (
+        self.dictionary = Dict("en_US")
+        self.scores = (
             load(open("scores.json", "r"))
             if isfile("scores.json")
             else defaultdict(int)
@@ -50,7 +50,7 @@ class Game:
         self.entry: Entry = Entry(master)
         self.entry.pack()
 
-        self.label: Label = Label(master, text="")
+        self.label = Label(master, text="")
         self.label.pack()
 
         self.master.after(1000, self.update)
@@ -86,7 +86,7 @@ class Game:
             None
         """
         self.label.config(text="Time's up. Game Over.")
-        player_name: str | None = askstring("Input", "Enter your name:")
+        player_name = askstring("Input", "Enter your name:")
         self.save_score(player_name, self.score)
         self.show_leaderboard()
 
@@ -97,7 +97,7 @@ class Game:
         Returns:
             None
         """
-        word: str = self.entry.get()
+        word = self.entry.get()
         if (
             len(word) >= self.word_length
             and self.dictionary.check(word)
@@ -118,7 +118,7 @@ class Game:
         self.entry.delete(0, "end")
         self.start_time = time()
         self.label.config(
-            f"Enter a word of length {self.word_length} in {self.time_limit} seconds. Score: {self.score}"
+            text=f"Enter a word of length {self.word_length} in {self.time_limit} seconds. Score: {self.score}"
         )
 
     def save_score(self, name: str | None, score: int) -> None:
