@@ -27,6 +27,6 @@ Other linux users try yourself
 There are precompiled .so files for linux in the build/lib/ directory to run these files use the following command
 ```bash
 git clone https://github.com/WafiWadud/fungame
-cd build/lib
+cd build/lib.linux-x86_64-cpython-311
 python3 -c 'import main'
 ```
