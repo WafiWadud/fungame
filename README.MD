@@ -18,6 +18,15 @@ For Arch
 ```bash
 pip install pyenchant
 sudo pacman -S libenchant aspell-en nuspell
+git clone https://github.com/WafiWadud/fungame
+python3 main.py
 ```
 
 Other linux users try yourself
+
+There are precompiled .so files for linux in the build/lib/ directory to run these files use the following command
+```bash
+git clone https://github.com/WafiWadud/fungame
+cd build/lib
+python3 -c 'import main'
+```
