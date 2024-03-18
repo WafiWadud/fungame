@@ -1,0 +1,1567 @@
+def Game.__init__(self, master):
+    self :: main.Game
+    master :: object
+    r0 :: str
+    r1 :: dict
+    r2 :: str
+    r3 :: object
+    r4 :: object[1]
+    r5 :: object_ptr
+    r6 :: object
+    r7 :: str
+    r8 :: dict
+    r9 :: str
+    r10 :: object
+    r11 :: object[1]
+    r12 :: object_ptr
+    r13 :: object
+    r14 :: bool
+    r15, r16 :: str
+    r17 :: object
+    r18 :: str
+    r19 :: object
+    r20 :: object[2]
+    r21 :: object_ptr
+    r22 :: object
+    r23 :: dict
+    r24 :: str
+    r25 :: object
+    r26 :: object[1]
+    r27 :: object_ptr
+    r28, r29, r30 :: object
+    r31 :: dict
+    r32 :: str
+    r33 :: object
+    r34 :: object[1]
+    r35 :: object_ptr
+    r36 :: object
+    r37, r38 :: dict
+    r39 :: str
+    r40, r41 :: object
+    r42 :: float
+    r43 :: bit
+    r44 :: set
+    r45 :: object
+    r46 :: dict
+    r47 :: str
+    r48 :: object
+    r49 :: object[1]
+    r50 :: object_ptr
+    r51, r52 :: object
+    r53 :: str
+    r54 :: object[1]
+    r55 :: object_ptr
+    r56 :: object
+    r57 :: str
+    r58 :: dict
+    r59 :: str
+    r60 :: object
+    r61 :: object[2]
+    r62 :: object_ptr
+    r63, r64, r65 :: object
+    r66 :: str
+    r67 :: object[1]
+    r68 :: object_ptr
+    r69, r70 :: object
+    r71 :: str
+    r72 :: object
+    r73 :: str
+    r74 :: object
+    r75 :: object[3]
+    r76 :: object_ptr
+    r77 :: object
+    r78 :: None
+L0:
+    r0 = 'en_US'
+    r1 = main.globals :: static
+    r2 = 'Dict'
+    r3 = CPyDict_GetItem(r1, r2)
+    if is_error(r3) goto L29 (error at __init__:37) else goto L1
+L1:
+    r4 = [r0]
+    r5 = load_address r4
+    r6 = _PyObject_Vectorcall(r3, r5, 1, 0)
+    dec_ref r3
+    if is_error(r6) goto L29 (error at __init__:37) else goto L2
+L2:
+    self.dictionary = r6
+    r7 = 'scores.json'
+    r8 = main.globals :: static
+    r9 = 'isfile'
+    r10 = CPyDict_GetItem(r8, r9)
+    if is_error(r10) goto L29 (error at __init__:40) else goto L3
+L3:
+    r11 = [r7]
+    r12 = load_address r11
+    r13 = _PyObject_Vectorcall(r10, r12, 1, 0)
+    dec_ref r10
+    if is_error(r13) goto L29 (error at __init__:40) else goto L4
+L4:
+    r14 = unbox(bool, r13)
+    dec_ref r13
+    if is_error(r14) goto L29 (error at __init__:40) else goto L5
+L5:
+    if r14 goto L6 else goto L11 :: bool
+L6:
+    r15 = 'scores.json'
+    r16 = 'r'
+    r17 = builtins :: module
+    r18 = 'open'
+    r19 = CPyObject_GetAttr(r17, r18)
+    if is_error(r19) goto L29 (error at __init__:39) else goto L7
+L7:
+    r20 = [r15, r16]
+    r21 = load_address r20
+    r22 = _PyObject_Vectorcall(r19, r21, 2, 0)
+    dec_ref r19
+    if is_error(r22) goto L29 (error at __init__:39) else goto L8
+L8:
+    r23 = main.globals :: static
+    r24 = 'load'
+    r25 = CPyDict_GetItem(r23, r24)
+    if is_error(r25) goto L30 (error at __init__:39) else goto L9
+L9:
+    r26 = [r22]
+    r27 = load_address r26
+    r28 = _PyObject_Vectorcall(r25, r27, 1, 0)
+    dec_ref r25
+    if is_error(r28) goto L30 (error at __init__:39) else goto L10
+L10:
+    dec_ref r22
+    r29 = r28
+    goto L15
+L11:
+    r30 = load_address PyLong_Type
+    r31 = main.globals :: static
+    r32 = 'defaultdict'
+    r33 = CPyDict_GetItem(r31, r32)
+    if is_error(r33) goto L29 (error at __init__:41) else goto L12
+L12:
+    r34 = [r30]
+    r35 = load_address r34
+    r36 = _PyObject_Vectorcall(r33, r35, 1, 0)
+    dec_ref r33
+    if is_error(r36) goto L29 (error at __init__:41) else goto L13
+L13:
+    r37 = cast(dict, r36)
+    if is_error(r37) goto L29 (error at __init__:41) else goto L14
+L14:
+    r29 = r37
+L15:
+    self.scores = r29
+    inc_ref master
+    self.master = master
+    self.word_length = 6
+    self.time_limit = 10
+    self.score = 0
+    r38 = main.globals :: static
+    r39 = 'time'
+    r40 = CPyDict_GetItem(r38, r39)
+    if is_error(r40) goto L29 (error at __init__:48) else goto L16
+L16:
+    r41 = _PyObject_Vectorcall(r40, 0, 0, 0)
+    dec_ref r40
+    if is_error(r41) goto L29 (error at __init__:48) else goto L17
+L17:
+    r42 = unbox(float, r41)
+    dec_ref r41
+    r43 = r42 == -113.0
+    if r43 goto L19 else goto L18 :: bool
+L18:
+    self.start_time = r42
+    r44 = PySet_New(0)
+    if is_error(r44) goto L29 (error at __init__:49) else goto L20
+L19:
+    r45 = PyErr_Occurred()
+    if not is_error(r45) goto L29 (error at __init__:48) else goto L18
+L20:
+    self.used_words = r44
+    r46 = main.globals :: static
+    r47 = 'Entry'
+    r48 = CPyDict_GetItem(r46, r47)
+    if is_error(r48) goto L29 (error at __init__:50) else goto L21
+L21:
+    r49 = [master]
+    r50 = load_address r49
+    r51 = _PyObject_Vectorcall(r48, r50, 1, 0)
+    dec_ref r48
+    if is_error(r51) goto L29 (error at __init__:50) else goto L22
+L22:
+    self.entry = r51
+    r52 = self.entry
+    r53 = 'pack'
+    r54 = [r52]
+    r55 = load_address r54
+    r56 = PyObject_VectorcallMethod(r53, r55, 9223372036854775809, 0)
+    if is_error(r56) goto L31 (error at __init__:51) else goto L32
+L23:
+    dec_ref r52
+    r57 = ''
+    r58 = main.globals :: static
+    r59 = 'Label'
+    r60 = CPyDict_GetItem(r58, r59)
+    if is_error(r60) goto L29 (error at __init__:53) else goto L24
+L24:
+    r61 = [master, r57]
+    r62 = load_address r61
+    r63 = ('text',)
+    r64 = _PyObject_Vectorcall(r60, r62, 1, r63)
+    dec_ref r60
+    if is_error(r64) goto L29 (error at __init__:53) else goto L25
+L25:
+    self.label = r64
+    r65 = self.label
+    r66 = 'pack'
+    r67 = [r65]
+    r68 = load_address r67
+    r69 = PyObject_VectorcallMethod(r66, r68, 9223372036854775809, 0)
+    if is_error(r69) goto L33 (error at __init__:54) else goto L34
+L26:
+    dec_ref r65
+    r70 = self.master
+    r71 = 'update'
+    r72 = CPyObject_GetAttr(self, r71)
+    if is_error(r72) goto L35 (error at __init__:56) else goto L27
+L27:
+    r73 = 'after'
+    r74 = object 1000
+    r75 = [r70, r74, r72]
+    r76 = load_address r75
+    r77 = PyObject_VectorcallMethod(r73, r76, 9223372036854775811, 0)
+    if is_error(r77) goto L36 (error at __init__:56) else goto L37
+L28:
+    dec_ref r70
+    dec_ref r72
+    return 1
+L29:
+    r78 = <error> :: None
+    return r78
+L30:
+    dec_ref r22
+    goto L29
+L31:
+    dec_ref r52
+    goto L29
+L32:
+    dec_ref r56
+    goto L23
+L33:
+    dec_ref r65
+    goto L29
+L34:
+    dec_ref r69
+    goto L26
+L35:
+    dec_ref r70
+    goto L29
+L36:
+    dec_ref r70
+    dec_ref r72
+    goto L29
+L37:
+    dec_ref r77
+    goto L28
+
+def Game.update(self):
+    self :: main.Game
+    r0 :: int
+    r1 :: bit
+    r2 :: bool
+    r3, r4 :: None
+    r5 :: object
+    r6 :: str
+    r7 :: object
+    r8 :: str
+    r9 :: object
+    r10 :: object[3]
+    r11 :: object_ptr
+    r12 :: object
+    r13 :: None
+L0:
+    r0 = borrow self.word_length
+    r1 = r0 != 146
+    if r1 goto L1 else goto L6 :: bool
+L1:
+    r2 = self.is_time_up()
+    if is_error(r2) goto L9 (error at update:66) else goto L2
+L2:
+    if r2 goto L3 else goto L5 :: bool
+L3:
+    r3 = self.end_game()
+    if is_error(r3) goto L9 (error at update:67) else goto L4
+L4:
+    return 1
+L5:
+    r4 = self.check_and_update_word()
+    if is_error(r4) goto L9 (error at update:69) else goto L6
+L6:
+    r5 = self.master
+    r6 = 'update'
+    r7 = CPyObject_GetAttr(self, r6)
+    if is_error(r7) goto L10 (error at update:70) else goto L7
+L7:
+    r8 = 'after'
+    r9 = object 1000
+    r10 = [r5, r9, r7]
+    r11 = load_address r10
+    r12 = PyObject_VectorcallMethod(r8, r11, 9223372036854775811, 0)
+    if is_error(r12) goto L11 (error at update:70) else goto L12
+L8:
+    dec_ref r5
+    dec_ref r7
+    return 1
+L9:
+    r13 = <error> :: None
+    return r13
+L10:
+    dec_ref r5
+    goto L9
+L11:
+    dec_ref r5
+    dec_ref r7
+    goto L9
+L12:
+    dec_ref r12
+    goto L8
+
+def Game.is_time_up(self):
+    self :: main.Game
+    r0 :: dict
+    r1 :: str
+    r2, r3 :: object
+    r4 :: float
+    r5 :: bit
+    r6, r7 :: float
+    r8 :: int
+    r9 :: float
+    r10 :: bit
+    r11 :: object
+    r12 :: bit
+    r13 :: object
+    r14 :: bool
+L0:
+    r0 = main.globals :: static
+    r1 = 'time'
+    r2 = CPyDict_GetItem(r0, r1)
+    if is_error(r2) goto L7 (error at is_time_up:79) else goto L1
+L1:
+    r3 = _PyObject_Vectorcall(r2, 0, 0, 0)
+    dec_ref r2
+    if is_error(r3) goto L7 (error at is_time_up:79) else goto L2
+L2:
+    r4 = unbox(float, r3)
+    dec_ref r3
+    r5 = r4 == -113.0
+    if r5 goto L4 else goto L3 :: bool
+L3:
+    r6 = self.start_time
+    r7 = r4 - r6
+    r8 = self.time_limit
+    r9 = CPyFloat_FromTagged(r8)
+    dec_ref r8 :: int
+    r10 = r9 == -113.0
+    if r10 goto L6 else goto L5 :: bool
+L4:
+    r11 = PyErr_Occurred()
+    if not is_error(r11) goto L7 (error at is_time_up:79) else goto L3
+L5:
+    r12 = r7 > r9
+    return r12
+L6:
+    r13 = PyErr_Occurred()
+    if not is_error(r13) goto L7 (error at is_time_up:79) else goto L5
+L7:
+    r14 = <error> :: bool
+    return r14
+
+def Game.end_game(self):
+    self :: main.Game
+    r0 :: object
+    r1, r2 :: str
+    r3 :: object[2]
+    r4 :: object_ptr
+    r5, r6 :: object
+    r7, r8 :: str
+    r9 :: dict
+    r10 :: str
+    r11 :: object
+    r12 :: object[2]
+    r13 :: object_ptr
+    r14 :: object
+    r15, player_name :: union[str, None]
+    r16 :: int
+    r17, r18, r19 :: None
+L0:
+    r0 = self.label
+    r1 = "Time's up. Game Over."
+    r2 = 'config'
+    r3 = [r0, r1]
+    r4 = load_address r3
+    r5 = ('text',)
+    r6 = PyObject_VectorcallMethod(r2, r4, 9223372036854775809, r5)
+    if is_error(r6) goto L8 (error at end_game:88) else goto L9
+L1:
+    dec_ref r0
+    r7 = 'Input'
+    r8 = 'Enter your name:'
+    r9 = main.globals :: static
+    r10 = 'askstring'
+    r11 = CPyDict_GetItem(r9, r10)
+    if is_error(r11) goto L7 (error at end_game:89) else goto L2
+L2:
+    r12 = [r7, r8]
+    r13 = load_address r12
+    r14 = _PyObject_Vectorcall(r11, r13, 2, 0)
+    dec_ref r11
+    if is_error(r14) goto L7 (error at end_game:89) else goto L3
+L3:
+    r15 = cast(union[str, None], r14)
+    if is_error(r15) goto L7 (error at end_game:89) else goto L4
+L4:
+    player_name = r15
+    r16 = self.score
+    r17 = self.save_score(player_name, r16)
+    dec_ref player_name
+    dec_ref r16 :: int
+    if is_error(r17) goto L7 (error at end_game:90) else goto L5
+L5:
+    r18 = self.show_leaderboard()
+    if is_error(r18) goto L7 (error at end_game:91) else goto L6
+L6:
+    return 1
+L7:
+    r19 = <error> :: None
+    return r19
+L8:
+    dec_ref r0
+    goto L7
+L9:
+    dec_ref r6
+    goto L1
+
+def Game.check_and_update_word(self):
+    self :: main.Game
+    r0 :: object
+    r1 :: str
+    r2 :: object[1]
+    r3 :: object_ptr
+    r4 :: object
+    r5, word :: str
+    r6 :: native_int
+    r7 :: bit
+    r8 :: short_int
+    r9 :: int
+    r10 :: native_int
+    r11 :: bit
+    r12 :: native_int
+    r13, r14, r15 :: bit
+    r16 :: object
+    r17 :: str
+    r18 :: object[2]
+    r19 :: object_ptr
+    r20 :: object
+    r21 :: i32
+    r22 :: bit
+    r23 :: bool
+    r24 :: set
+    r25 :: i32
+    r26 :: bit
+    r27, r28 :: bool
+    r29, r30 :: None
+L0:
+    r0 = self.entry
+    r1 = 'get'
+    r2 = [r0]
+    r3 = load_address r2
+    r4 = PyObject_VectorcallMethod(r1, r3, 9223372036854775809, 0)
+    if is_error(r4) goto L15 (error at check_and_update_word:100) else goto L1
+L1:
+    dec_ref r0
+    r5 = cast(str, r4)
+    if is_error(r5) goto L14 (error at check_and_update_word:100) else goto L2
+L2:
+    word = r5
+    r6 = CPyStr_Size_size_t(word)
+    r7 = r6 >= 0 :: signed
+    if not r7 goto L16 (error at check_and_update_word:102) else goto L3 :: bool
+L3:
+    r8 = r6 << 1
+    r9 = borrow self.word_length
+    r10 = r8 & 1
+    r11 = r10 != 0
+    if r11 goto L5 else goto L4 :: bool
+L4:
+    r12 = r9 & 1
+    r13 = r12 != 0
+    if r13 goto L5 else goto L6 :: bool
+L5:
+    r14 = CPyTagged_IsLt_(r8, r9)
+    if r14 goto L17 else goto L7 :: bool
+L6:
+    r15 = r8 >= r9 :: signed
+    if r15 goto L7 else goto L17 :: bool
+L7:
+    r16 = self.dictionary
+    r17 = 'check'
+    r18 = [r16, word]
+    r19 = load_address r18
+    r20 = PyObject_VectorcallMethod(r17, r19, 9223372036854775810, 0)
+    if is_error(r20) goto L18 (error at check_and_update_word:103) else goto L8
+L8:
+    dec_ref r16
+    r21 = PyObject_IsTrue(r20)
+    dec_ref r20
+    r22 = r21 >= 0 :: signed
+    if not r22 goto L16 (error at check_and_update_word:103) else goto L9 :: bool
+L9:
+    r23 = truncate r21: i32 to builtins.bool
+    if r23 goto L10 else goto L17 :: bool
+L10:
+    r24 = self.used_words
+    r25 = PySet_Contains(r24, word)
+    dec_ref r24
+    dec_ref word
+    r26 = r25 >= 0 :: signed
+    if not r26 goto L14 (error at check_and_update_word:104) else goto L11 :: bool
+L11:
+    r27 = truncate r25: i32 to builtins.bool
+    r28 = r27 ^ 1
+    if r28 goto L12 else goto L13 :: bool
+L12:
+    r29 = self.level_up()
+    if is_error(r29) goto L14 (error at check_and_update_word:106) else goto L13
+L13:
+    return 1
+L14:
+    r30 = <error> :: None
+    return r30
+L15:
+    dec_ref r0
+    goto L14
+L16:
+    dec_ref word
+    goto L14
+L17:
+    dec_ref word
+    goto L13
+L18:
+    dec_ref word
+    dec_ref r16
+    goto L14
+
+def Game.level_up(self):
+    self :: main.Game
+    r0, r1 :: int
+    r2 :: bool
+    r3, r4 :: int
+    r5 :: bool
+    r6, r7 :: int
+    r8 :: bool
+    r9 :: object
+    r10, r11 :: str
+    r12 :: object
+    r13 :: object[3]
+    r14 :: object_ptr
+    r15 :: object
+    r16 :: dict
+    r17 :: str
+    r18, r19 :: object
+    r20 :: float
+    r21 :: bit
+    r22 :: bool
+    r23 :: object
+    r24 :: str
+    r25 :: int
+    r26 :: str
+    r27 :: object
+    r28 :: str
+    r29 :: int
+    r30, r31 :: str
+    r32 :: int
+    r33, r34, r35 :: str
+    r36 :: object[2]
+    r37 :: object_ptr
+    r38, r39 :: object
+    r40 :: None
+L0:
+    r0 = borrow self.score
+    r1 = CPyTagged_Add(r0, 20)
+    self.score = r1
+    r3 = borrow self.word_length
+    r4 = CPyTagged_Add(r3, 2)
+    self.word_length = r4
+    r6 = borrow self.time_limit
+    r7 = CPyTagged_Add(r6, 4)
+    self.time_limit = r7
+    r9 = self.entry
+    r10 = 'end'
+    r11 = 'delete'
+    r12 = object 0
+    r13 = [r9, r12, r10]
+    r14 = load_address r13
+    r15 = PyObject_VectorcallMethod(r11, r14, 9223372036854775811, 0)
+    if is_error(r15) goto L12 (error at level_up:118) else goto L13
+L1:
+    dec_ref r9
+    r16 = main.globals :: static
+    r17 = 'time'
+    r18 = CPyDict_GetItem(r16, r17)
+    if is_error(r18) goto L11 (error at level_up:119) else goto L2
+L2:
+    r19 = _PyObject_Vectorcall(r18, 0, 0, 0)
+    dec_ref r18
+    if is_error(r19) goto L11 (error at level_up:119) else goto L3
+L3:
+    r20 = unbox(float, r19)
+    dec_ref r19
+    r21 = r20 == -113.0
+    if r21 goto L5 else goto L4 :: bool
+L4:
+    self.start_time = r20
+    r23 = self.label
+    r24 = 'Enter a word of length '
+    r25 = self.word_length
+    r26 = CPyTagged_Str(r25)
+    dec_ref r25 :: int
+    if is_error(r26) goto L14 (error at level_up:121) else goto L6
+L5:
+    r27 = PyErr_Occurred()
+    if not is_error(r27) goto L11 (error at level_up:119) else goto L4
+L6:
+    r28 = ' in '
+    r29 = self.time_limit
+    r30 = CPyTagged_Str(r29)
+    dec_ref r29 :: int
+    if is_error(r30) goto L15 (error at level_up:121) else goto L7
+L7:
+    r31 = ' seconds. Score: '
+    r32 = self.score
+    r33 = CPyTagged_Str(r32)
+    dec_ref r32 :: int
+    if is_error(r33) goto L16 (error at level_up:121) else goto L8
+L8:
+    r34 = CPyStr_Build(6, r24, r26, r28, r30, r31, r33)
+    dec_ref r26
+    dec_ref r30
+    dec_ref r33
+    if is_error(r34) goto L14 (error at level_up:121) else goto L9
+L9:
+    r35 = 'config'
+    r36 = [r23, r34]
+    r37 = load_address r36
+    r38 = ('text',)
+    r39 = PyObject_VectorcallMethod(r35, r37, 9223372036854775809, r38)
+    if is_error(r39) goto L17 (error at level_up:120) else goto L18
+L10:
+    dec_ref r23
+    dec_ref r34
+    return 1
+L11:
+    r40 = <error> :: None
+    return r40
+L12:
+    dec_ref r9
+    goto L11
+L13:
+    dec_ref r15
+    goto L1
+L14:
+    dec_ref r23
+    goto L11
+L15:
+    dec_ref r23
+    dec_ref r26
+    goto L11
+L16:
+    dec_ref r23
+    dec_ref r26
+    dec_ref r30
+    goto L11
+L17:
+    dec_ref r23
+    dec_ref r34
+    goto L11
+L18:
+    dec_ref r39
+    goto L10
+
+def Game.save_score(self, name, score):
+    self :: main.Game
+    name :: union[str, None]
+    score :: int
+    r0, r1 :: object
+    r2 :: i32
+    r3 :: bit
+    r4, r5 :: str
+    r6 :: object
+    r7 :: str
+    r8 :: object
+    r9 :: object[2]
+    r10 :: object_ptr
+    r11, r12 :: object
+    r13 :: str
+    r14 :: object
+    r15 :: str
+    r16 :: object
+    r17 :: object[1]
+    r18 :: object_ptr
+    r19 :: object
+    r20 :: bool
+    f, r21 :: object
+    r22 :: dict
+    r23 :: str
+    r24 :: object
+    r25 :: object[2]
+    r26 :: object_ptr
+    r27 :: object
+    r28, r29 :: tuple[object, object, object]
+    r30, r31, r32 :: object
+    r33 :: object[4]
+    r34 :: object_ptr
+    r35 :: object
+    r36 :: i32
+    r37 :: bit
+    r38 :: bool
+    r39 :: bit
+    r40, r41, r42 :: tuple[object, object, object]
+    r43 :: object
+    r44 :: object[4]
+    r45 :: object_ptr
+    r46 :: object
+    r47 :: bit
+    r48 :: None
+L0:
+    r0 = self.scores
+    inc_ref score :: int
+    r1 = box(int, score)
+    r2 = PyObject_SetItem(r0, name, r1)
+    dec_ref r0
+    dec_ref r1
+    r3 = r2 >= 0 :: signed
+    if not r3 goto L31 (error at save_score:135) else goto L1 :: bool
+L1:
+    r4 = 'scores.json'
+    r5 = 'w'
+    r6 = builtins :: module
+    r7 = 'open'
+    r8 = CPyObject_GetAttr(r6, r7)
+    if is_error(r8) goto L31 (error at save_score:136) else goto L2
+L2:
+    r9 = [r4, r5]
+    r10 = load_address r9
+    r11 = _PyObject_Vectorcall(r8, r10, 2, 0)
+    dec_ref r8
+    if is_error(r11) goto L31 (error at save_score:136) else goto L3
+L3:
+    r12 = PyObject_Type(r11)
+    r13 = '__exit__'
+    r14 = CPyObject_GetAttr(r12, r13)
+    if is_error(r14) goto L32 (error at save_score:136) else goto L4
+L4:
+    r15 = '__enter__'
+    r16 = CPyObject_GetAttr(r12, r15)
+    dec_ref r12
+    if is_error(r16) goto L33 (error at save_score:136) else goto L5
+L5:
+    r17 = [r11]
+    r18 = load_address r17
+    r19 = _PyObject_Vectorcall(r16, r18, 1, 0)
+    dec_ref r16
+    if is_error(r19) goto L33 (error at save_score:136) else goto L6
+L6:
+    r20 = 1
+L7:
+    f = r19
+    r21 = self.scores
+    r22 = main.globals :: static
+    r23 = 'dump'
+    r24 = CPyDict_GetItem(r22, r23)
+    if is_error(r24) goto L34 (error at save_score:137) else goto L8
+L8:
+    r25 = [r21, f]
+    r26 = load_address r25
+    r27 = _PyObject_Vectorcall(r24, r26, 2, 0)
+    dec_ref r24
+    if is_error(r27) goto L34 (error at save_score:137) else goto L35
+L9:
+    dec_ref r21
+    dec_ref f
+    goto L18
+L10:
+    r28 = CPy_CatchError()
+    r20 = 0
+    r29 = CPy_GetExcInfo()
+    r30 = r29[0]
+    r31 = r29[1]
+    r32 = r29[2]
+    dec_ref r29
+    r33 = [r11, r30, r31, r32]
+    r34 = load_address r33
+    r35 = _PyObject_Vectorcall(r14, r34, 4, 0)
+    if is_error(r35) goto L36 (error at save_score:136) else goto L11
+L11:
+    dec_ref r30
+    dec_ref r31
+    dec_ref r32
+    r36 = PyObject_IsTrue(r35)
+    dec_ref r35
+    r37 = r36 >= 0 :: signed
+    if not r37 goto L16 (error at save_score:136) else goto L12 :: bool
+L12:
+    r38 = truncate r36: i32 to builtins.bool
+    if r38 goto L15 else goto L13 :: bool
+L13:
+    CPy_Reraise()
+    if not 0 goto L16 else goto L37 :: bool
+L14:
+    unreachable
+L15:
+    CPy_RestoreExcInfo(r28)
+    dec_ref r28
+    goto L18
+L16:
+    CPy_RestoreExcInfo(r28)
+    dec_ref r28
+    r39 = CPy_KeepPropagating()
+    if not r39 goto L19 else goto L38 :: bool
+L17:
+    unreachable
+L18:
+    r40 = <error> :: tuple[object, object, object]
+    r41 = r40
+    goto L20
+L19:
+    r42 = CPy_CatchError()
+    r41 = r42
+L20:
+    if r20 goto L21 else goto L39 :: bool
+L21:
+    r43 = load_address _Py_NoneStruct
+    r44 = [r11, r43, r43, r43]
+    r45 = load_address r44
+    r46 = _PyObject_Vectorcall(r14, r45, 4, 0)
+    dec_ref r14
+    if is_error(r46) goto L40 (error at save_score:136) else goto L41
+L22:
+    dec_ref r11
+L23:
+    if is_error(r41) goto L30 else goto L24
+L24:
+    CPy_Reraise()
+    if not 0 goto L26 else goto L42 :: bool
+L25:
+    unreachable
+L26:
+    if is_error(r41) goto L28 else goto L27
+L27:
+    CPy_RestoreExcInfo(r41)
+    xdec_ref r41
+L28:
+    r47 = CPy_KeepPropagating()
+    if not r47 goto L31 else goto L29 :: bool
+L29:
+    unreachable
+L30:
+    return 1
+L31:
+    r48 = <error> :: None
+    return r48
+L32:
+    dec_ref r11
+    dec_ref r12
+    goto L31
+L33:
+    dec_ref r11
+    dec_ref r14
+    goto L31
+L34:
+    dec_ref f
+    dec_ref r21
+    goto L10
+L35:
+    dec_ref r27
+    goto L9
+L36:
+    dec_ref r30
+    dec_ref r31
+    dec_ref r32
+    goto L16
+L37:
+    dec_ref r11
+    dec_ref r14
+    dec_ref r28
+    goto L14
+L38:
+    dec_ref r11
+    dec_ref r14
+    goto L17
+L39:
+    dec_ref r11
+    dec_ref r14
+    goto L23
+L40:
+    dec_ref r11
+    goto L26
+L41:
+    dec_ref r46
+    goto L22
+L42:
+    xdec_ref r41
+    goto L25
+
+def __mypyc_lambda__0_show_leaderboard_Game_obj.__get__(__mypyc_self__, instance, owner):
+    __mypyc_self__, instance, owner, r0 :: object
+    r1 :: bit
+    r2, r3 :: object
+L0:
+    r0 = load_address _Py_NoneStruct
+    r1 = instance == r0
+    if r1 goto L1 else goto L2 :: bool
+L1:
+    inc_ref __mypyc_self__
+    return __mypyc_self__
+L2:
+    r2 = PyMethod_New(__mypyc_self__, instance)
+    if is_error(r2) goto L4 else goto L3
+L3:
+    return r2
+L4:
+    r3 = <error> :: object
+    return r3
+
+def __mypyc_lambda__0_show_leaderboard_Game_obj.__call__(__mypyc_self__, x):
+    __mypyc_self__ :: main.__mypyc_lambda__0_show_leaderboard_Game_obj
+    x :: tuple[union[str, None], int]
+    r0 :: main.show_leaderboard_Game_env
+    r1, r2 :: int
+L0:
+    r0 = __mypyc_self__.__mypyc_env__
+    if is_error(r0) goto L2 (error at <lambda>:150) else goto L3
+L1:
+    r1 = x[1]
+    return r1
+L2:
+    r2 = <error> :: int
+    return r2
+L3:
+    dec_ref r0
+    goto L1
+
+def Game.show_leaderboard(self):
+    self :: main.Game
+    r0 :: main.show_leaderboard_Game_env
+    r1 :: object
+    r2 :: dict
+    r3 :: str
+    r4 :: object
+    r5 :: object[1]
+    r6 :: object_ptr
+    r7, leaderboard_window :: object
+    r8, r9 :: str
+    r10 :: object[2]
+    r11 :: object_ptr
+    r12 :: object
+    r13 :: list
+    r14 :: object
+    r15 :: str
+    r16 :: object[1]
+    r17 :: object_ptr
+    r18, r19, r20, r21, r22 :: object
+    r23 :: bool
+    name, r24 :: object
+    r25 :: bool
+    score, r26 :: object
+    r27 :: bool
+    r28, r29 :: object
+    r30 :: i32
+    r31 :: bit
+    r32 :: bool
+    r33 :: tuple[object, object]
+    r34 :: object
+    r35 :: i32
+    r36, r37 :: bit
+    r38 :: main.__mypyc_lambda__0_show_leaderboard_Game_obj
+    r39 :: bool
+    r40 :: object
+    r41 :: str
+    r42, r43 :: object
+    r44 :: object[3]
+    r45 :: object_ptr
+    r46, r47 :: object
+    r48, sorted_scores :: list
+    r49 :: short_int
+    i :: int
+    r50 :: short_int
+    r51 :: ptr
+    r52 :: native_int
+    r53 :: short_int
+    r54 :: bit
+    r55 :: object
+    r56 :: tuple[union[str, None], int]
+    r57, name_2 :: union[str, None]
+    r58, score_2 :: int
+    r59, r60, r61, r62 :: str
+    r63 :: dict
+    r64 :: str
+    r65 :: object
+    r66 :: object[2]
+    r67 :: object_ptr
+    r68, r69 :: object
+    r70 :: str
+    r71 :: object
+    r72 :: object[2]
+    r73 :: object_ptr
+    r74, r75 :: object
+    r76, r77 :: short_int
+    r78 :: None
+L0:
+    r0 = show_leaderboard_Game_env()
+    if is_error(r0) goto L40 (error at show_leaderboard:139) else goto L1
+L1:
+    r1 = self.master
+    r2 = main.globals :: static
+    r3 = 'Toplevel'
+    r4 = CPyDict_GetItem(r2, r3)
+    if is_error(r4) goto L41 (error at show_leaderboard:146) else goto L2
+L2:
+    r5 = [r1]
+    r6 = load_address r5
+    r7 = _PyObject_Vectorcall(r4, r6, 1, 0)
+    dec_ref r4
+    if is_error(r7) goto L41 (error at show_leaderboard:146) else goto L3
+L3:
+    dec_ref r1
+    leaderboard_window = r7
+    r8 = 'Leaderboard'
+    r9 = 'title'
+    r10 = [leaderboard_window, r8]
+    r11 = load_address r10
+    r12 = PyObject_VectorcallMethod(r9, r11, 9223372036854775810, 0)
+    if is_error(r12) goto L42 (error at show_leaderboard:147) else goto L43
+L4:
+    r13 = PyList_New(0)
+    if is_error(r13) goto L42 (error at show_leaderboard:149) else goto L5
+L5:
+    r14 = self.scores
+    r15 = 'items'
+    r16 = [r14]
+    r17 = load_address r16
+    r18 = PyObject_VectorcallMethod(r15, r17, 9223372036854775809, 0)
+    if is_error(r18) goto L44 (error at show_leaderboard:149) else goto L6
+L6:
+    dec_ref r14
+    r19 = PyObject_GetIter(r18)
+    dec_ref r18
+    if is_error(r19) goto L45 (error at show_leaderboard:149) else goto L7
+L7:
+    r20 = PyIter_Next(r19)
+    if is_error(r20) goto L46 else goto L8
+L8:
+    r21 = PyObject_GetIter(r20)
+    dec_ref r20
+    if is_error(r21) goto L47 (error at show_leaderboard:149) else goto L9
+L9:
+    r22 = PyIter_Next(r21)
+    if is_error(r22) goto L48 else goto L12
+L10:
+    r23 = raise ValueError('not enough values to unpack')
+    if not r23 goto L40 (error at show_leaderboard:149) else goto L11 :: bool
+L11:
+    unreachable
+L12:
+    name = r22
+    r24 = PyIter_Next(r21)
+    if is_error(r24) goto L49 else goto L15
+L13:
+    r25 = raise ValueError('not enough values to unpack')
+    if not r25 goto L40 (error at show_leaderboard:149) else goto L14 :: bool
+L14:
+    unreachable
+L15:
+    score = r24
+    r26 = PyIter_Next(r21)
+    dec_ref r21
+    if is_error(r26) goto L18 else goto L50
+L16:
+    r27 = raise ValueError('too many values to unpack')
+    if not r27 goto L40 (error at show_leaderboard:149) else goto L17 :: bool
+L17:
+    unreachable
+L18:
+    r28 = object 0
+    r29 = PyObject_RichCompare(score, r28, 4)
+    if is_error(r29) goto L51 (error at show_leaderboard:149) else goto L19
+L19:
+    r30 = PyObject_IsTrue(r29)
+    dec_ref r29
+    r31 = r30 >= 0 :: signed
+    if not r31 goto L51 (error at show_leaderboard:149) else goto L20 :: bool
+L20:
+    r32 = truncate r30: i32 to builtins.bool
+    if r32 goto L21 else goto L52 :: bool
+L21:
+    r33 = (name, score)
+    r34 = box(tuple[object, object], r33)
+    r35 = PyList_Append(r13, r34)
+    dec_ref r34
+    r36 = r35 >= 0 :: signed
+    if not r36 goto L47 (error at show_leaderboard:149) else goto L7 :: bool
+L22:
+    r37 = CPy_NoErrOccured()
+    if not r37 goto L45 (error at show_leaderboard:149) else goto L23 :: bool
+L23:
+    r38 = __mypyc_lambda__0_show_leaderboard_Game_obj()
+    if is_error(r38) goto L45 (error at show_leaderboard:150) else goto L24
+L24:
+    r38.__mypyc_env__ = r0; r39 = is_error
+    if not r39 goto L53 (error at show_leaderboard:150) else goto L25 :: bool
+L25:
+    r40 = builtins :: module
+    r41 = 'sorted'
+    r42 = CPyObject_GetAttr(r40, r41)
+    if is_error(r42) goto L53 (error at show_leaderboard:148) else goto L26
+L26:
+    r43 = box(bool, 1)
+    r44 = [r13, r38, r43]
+    r45 = load_address r44
+    r46 = ('key', 'reverse')
+    r47 = _PyObject_Vectorcall(r42, r45, 1, r46)
+    dec_ref r42
+    if is_error(r47) goto L53 (error at show_leaderboard:148) else goto L27
+L27:
+    dec_ref r13
+    dec_ref r38
+    r48 = cast(list, r47)
+    if is_error(r48) goto L54 (error at show_leaderboard:148) else goto L28
+L28:
+    sorted_scores = r48
+    r49 = 0
+    i = 0
+    r50 = 0
+L29:
+    r51 = get_element_ptr sorted_scores ob_size :: PyVarObject
+    r52 = load_mem r51 :: native_int*
+    r53 = r52 << 1
+    r54 = r50 < r53 :: signed
+    if r54 goto L30 else goto L55 :: bool
+L30:
+    r55 = CPyList_GetItemUnsafe(sorted_scores, r50)
+    r56 = unbox(tuple[union[str, None], int], r55)
+    dec_ref r55
+    if is_error(r56) goto L56 (error at show_leaderboard:153) else goto L31
+L31:
+    r57 = r56[0]
+    name_2 = r57
+    r58 = r56[1]
+    dec_ref r56
+    score_2 = r58
+    r59 = PyObject_Str(name_2)
+    dec_ref name_2
+    if is_error(r59) goto L57 (error at show_leaderboard:154) else goto L32
+L32:
+    r60 = ': '
+    r61 = CPyTagged_Str(score_2)
+    dec_ref score_2 :: int
+    if is_error(r61) goto L58 (error at show_leaderboard:154) else goto L33
+L33:
+    r62 = CPyStr_Build(3, r59, r60, r61)
+    dec_ref r59
+    dec_ref r61
+    if is_error(r62) goto L56 (error at show_leaderboard:154) else goto L34
+L34:
+    r63 = main.globals :: static
+    r64 = 'Label'
+    r65 = CPyDict_GetItem(r63, r64)
+    if is_error(r65) goto L59 (error at show_leaderboard:154) else goto L35
+L35:
+    r66 = [leaderboard_window, r62]
+    r67 = load_address r66
+    r68 = ('text',)
+    r69 = _PyObject_Vectorcall(r65, r67, 1, r68)
+    dec_ref r65
+    if is_error(r69) goto L59 (error at show_leaderboard:154) else goto L36
+L36:
+    dec_ref r62
+    r70 = 'grid'
+    r71 = box(int, i)
+    r72 = [r69, r71]
+    r73 = load_address r72
+    r74 = ('row',)
+    r75 = PyObject_VectorcallMethod(r70, r73, 9223372036854775809, r74)
+    if is_error(r75) goto L60 (error at show_leaderboard:154) else goto L61
+L37:
+    dec_ref r69
+    dec_ref r71
+L38:
+    r76 = r49 + 2
+    r49 = r76
+    i = r76
+    r77 = r50 + 2
+    r50 = r77
+    goto L29
+L39:
+    return 1
+L40:
+    r78 = <error> :: None
+    return r78
+L41:
+    dec_ref r0
+    dec_ref r1
+    goto L40
+L42:
+    dec_ref r0
+    dec_ref leaderboard_window
+    goto L40
+L43:
+    dec_ref r12
+    goto L4
+L44:
+    dec_ref r0
+    dec_ref leaderboard_window
+    dec_ref r13
+    dec_ref r14
+    goto L40
+L45:
+    dec_ref r0
+    dec_ref leaderboard_window
+    dec_ref r13
+    goto L40
+L46:
+    dec_ref r19
+    goto L22
+L47:
+    dec_ref r0
+    dec_ref leaderboard_window
+    dec_ref r13
+    dec_ref r19
+    goto L40
+L48:
+    dec_ref r0
+    dec_ref leaderboard_window
+    dec_ref r13
+    dec_ref r19
+    dec_ref r21
+    goto L10
+L49:
+    dec_ref r0
+    dec_ref leaderboard_window
+    dec_ref r13
+    dec_ref r19
+    dec_ref r21
+    dec_ref name
+    goto L13
+L50:
+    dec_ref r0
+    dec_ref leaderboard_window
+    dec_ref r13
+    dec_ref r19
+    dec_ref name
+    dec_ref score
+    dec_ref r26
+    goto L16
+L51:
+    dec_ref r0
+    dec_ref leaderboard_window
+    dec_ref r13
+    dec_ref r19
+    dec_ref name
+    dec_ref score
+    goto L40
+L52:
+    dec_ref name
+    dec_ref score
+    goto L7
+L53:
+    dec_ref leaderboard_window
+    dec_ref r13
+    dec_ref r38
+    goto L40
+L54:
+    dec_ref leaderboard_window
+    goto L40
+L55:
+    dec_ref leaderboard_window
+    dec_ref sorted_scores
+    dec_ref i :: int
+    goto L39
+L56:
+    dec_ref leaderboard_window
+    dec_ref sorted_scores
+    dec_ref i :: int
+    goto L40
+L57:
+    dec_ref leaderboard_window
+    dec_ref sorted_scores
+    dec_ref i :: int
+    dec_ref score_2 :: int
+    goto L40
+L58:
+    dec_ref leaderboard_window
+    dec_ref sorted_scores
+    dec_ref i :: int
+    dec_ref r59
+    goto L40
+L59:
+    dec_ref leaderboard_window
+    dec_ref sorted_scores
+    dec_ref i :: int
+    dec_ref r62
+    goto L40
+L60:
+    dec_ref leaderboard_window
+    dec_ref sorted_scores
+    dec_ref r69
+    dec_ref r71
+    goto L40
+L61:
+    dec_ref r75
+    goto L37
+
+def __top_level__():
+    r0, r1 :: object
+    r2 :: bit
+    r3 :: str
+    r4, r5 :: object
+    r6 :: str
+    r7 :: dict
+    r8, r9 :: object
+    r10 :: str
+    r11 :: dict
+    r12, r13 :: object
+    r14 :: str
+    r15 :: dict
+    r16, r17 :: object
+    r18 :: str
+    r19 :: dict
+    r20, r21 :: object
+    r22 :: str
+    r23 :: dict
+    r24, r25 :: object
+    r26 :: str
+    r27 :: dict
+    r28, r29 :: object
+    r30 :: str
+    r31 :: dict
+    r32, r33 :: object
+    r34 :: str
+    r35, r36 :: object
+    r37 :: bool
+    r38, r39, r40, r41, r42, r43, r44, r45, r46, r47, r48 :: str
+    r49 :: tuple
+    r50 :: i32
+    r51 :: bit
+    r52 :: dict
+    r53 :: str
+    r54 :: i32
+    r55 :: bit
+    r56 :: dict
+    r57 :: str
+    r58, r59 :: object
+    r60 :: dict
+    r61 :: str
+    r62 :: i32
+    r63 :: bit
+    r64 :: dict
+    r65 :: str
+    r66 :: object
+    r67, r68 :: str
+    r69 :: object[2]
+    r70 :: object_ptr
+    r71 :: object
+    r72 :: dict
+    r73 :: str
+    r74 :: object
+    r75 :: main.Game
+    r76 :: dict
+    r77 :: str
+    r78 :: i32
+    r79 :: bit
+    r80 :: dict
+    r81 :: str
+    r82 :: object
+    r83 :: str
+    r84 :: object[1]
+    r85 :: object_ptr
+    r86 :: object
+    r87 :: None
+L0:
+    r0 = builtins :: module
+    r1 = load_address _Py_NoneStruct
+    r2 = r0 != r1
+    if r2 goto L3 else goto L1 :: bool
+L1:
+    r3 = 'builtins'
+    r4 = PyImport_Import(r3)
+    if is_error(r4) goto L26 (error at <module>:-1) else goto L2
+L2:
+    builtins = r4 :: module
+    dec_ref r4
+L3:
+    r5 = ('defaultdict',)
+    r6 = 'collections'
+    r7 = main.globals :: static
+    r8 = CPyImport_ImportFromMany(r6, r5, r5, r7)
+    if is_error(r8) goto L26 (error at <module>:1) else goto L4
+L4:
+    collections = r8 :: module
+    dec_ref r8
+    r9 = ('Tk', 'Entry', 'Label', 'Toplevel')
+    r10 = 'tkinter'
+    r11 = main.globals :: static
+    r12 = CPyImport_ImportFromMany(r10, r9, r9, r11)
+    if is_error(r12) goto L26 (error at <module>:2) else goto L5
+L5:
+    tkinter = r12 :: module
+    dec_ref r12
+    r13 = ('askstring',)
+    r14 = 'tkinter.simpledialog'
+    r15 = main.globals :: static
+    r16 = CPyImport_ImportFromMany(r14, r13, r13, r15)
+    if is_error(r16) goto L26 (error at <module>:3) else goto L6
+L6:
+    tkinter.simpledialog = r16 :: module
+    dec_ref r16
+    r17 = ('isfile',)
+    r18 = 'os.path'
+    r19 = main.globals :: static
+    r20 = CPyImport_ImportFromMany(r18, r17, r17, r19)
+    if is_error(r20) goto L26 (error at <module>:4) else goto L7
+L7:
+    os.path = r20 :: module
+    dec_ref r20
+    r21 = ('load', 'dump')
+    r22 = 'json'
+    r23 = main.globals :: static
+    r24 = CPyImport_ImportFromMany(r22, r21, r21, r23)
+    if is_error(r24) goto L26 (error at <module>:5) else goto L8
+L8:
+    json = r24 :: module
+    dec_ref r24
+    r25 = ('time',)
+    r26 = 'time'
+    r27 = main.globals :: static
+    r28 = CPyImport_ImportFromMany(r26, r25, r25, r27)
+    if is_error(r28) goto L26 (error at <module>:6) else goto L9
+L9:
+    time = r28 :: module
+    dec_ref r28
+    r29 = ('Dict',)
+    r30 = 'enchant'
+    r31 = main.globals :: static
+    r32 = CPyImport_ImportFromMany(r30, r29, r29, r31)
+    if is_error(r32) goto L26 (error at <module>:7) else goto L10
+L10:
+    enchant = r32 :: module
+    dec_ref r32
+    r33 = <error> :: object
+    r34 = 'main'
+    r35 = main.Game_template :: type
+    r36 = CPyType_FromTemplate(r35, r33, r34)
+    if is_error(r36) goto L26 (error at <module>:10) else goto L11
+L11:
+    r37 = Game_trait_vtable_setup()
+    if is_error(r37) goto L27 (error at <module>:-1) else goto L12
+L12:
+    r38 = '__mypyc_attrs__'
+    r39 = 'dictionary'
+    r40 = 'scores'
+    r41 = 'master'
+    r42 = 'word_length'
+    r43 = 'time_limit'
+    r44 = 'score'
+    r45 = 'start_time'
+    r46 = 'used_words'
+    r47 = 'entry'
+    r48 = 'label'
+    r49 = PyTuple_Pack(10, r39, r40, r41, r42, r43, r44, r45, r46, r47, r48)
+    if is_error(r49) goto L27 (error at <module>:10) else goto L13
+L13:
+    r50 = PyObject_SetAttr(r36, r38, r49)
+    dec_ref r49
+    r51 = r50 >= 0 :: signed
+    if not r51 goto L27 (error at <module>:10) else goto L14 :: bool
+L14:
+    main.Game = r36 :: type
+    r52 = main.globals :: static
+    r53 = 'Game'
+    r54 = CPyDict_SetItem(r52, r53, r36)
+    dec_ref r36
+    r55 = r54 >= 0 :: signed
+    if not r55 goto L26 (error at <module>:10) else goto L15 :: bool
+L15:
+    r56 = main.globals :: static
+    r57 = 'Tk'
+    r58 = CPyDict_GetItem(r56, r57)
+    if is_error(r58) goto L26 (error at <module>:157) else goto L16
+L16:
+    r59 = _PyObject_Vectorcall(r58, 0, 0, 0)
+    dec_ref r58
+    if is_error(r59) goto L26 (error at <module>:157) else goto L17
+L17:
+    r60 = main.globals :: static
+    r61 = 'root'
+    r62 = CPyDict_SetItem(r60, r61, r59)
+    dec_ref r59
+    r63 = r62 >= 0 :: signed
+    if not r63 goto L26 (error at <module>:157) else goto L18 :: bool
+L18:
+    r64 = main.globals :: static
+    r65 = 'root'
+    r66 = CPyDict_GetItem(r64, r65)
+    if is_error(r66) goto L26 (error at <module>:158) else goto L19
+L19:
+    r67 = '800x600'
+    r68 = 'geometry'
+    r69 = [r66, r67]
+    r70 = load_address r69
+    r71 = PyObject_VectorcallMethod(r68, r70, 9223372036854775810, 0)
+    if is_error(r71) goto L28 (error at <module>:158) else goto L29
+L20:
+    dec_ref r66
+    r72 = main.globals :: static
+    r73 = 'root'
+    r74 = CPyDict_GetItem(r72, r73)
+    if is_error(r74) goto L26 (error at <module>:159) else goto L21
+L21:
+    r75 = Game(r74)
+    dec_ref r74
+    if is_error(r75) goto L26 (error at <module>:159) else goto L22
+L22:
+    r76 = main.globals :: static
+    r77 = 'game'
+    r78 = CPyDict_SetItem(r76, r77, r75)
+    dec_ref r75
+    r79 = r78 >= 0 :: signed
+    if not r79 goto L26 (error at <module>:159) else goto L23 :: bool
+L23:
+    r80 = main.globals :: static
+    r81 = 'root'
+    r82 = CPyDict_GetItem(r80, r81)
+    if is_error(r82) goto L26 (error at <module>:160) else goto L24
+L24:
+    r83 = 'mainloop'
+    r84 = [r82]
+    r85 = load_address r84
+    r86 = PyObject_VectorcallMethod(r83, r85, 9223372036854775809, 0)
+    if is_error(r86) goto L30 (error at <module>:160) else goto L31
+L25:
+    dec_ref r82
+    return 1
+L26:
+    r87 = <error> :: None
+    return r87
+L27:
+    dec_ref r36
+    goto L26
+L28:
+    dec_ref r66
+    goto L26
+L29:
+    dec_ref r71
+    goto L20
+L30:
+    dec_ref r82
+    goto L26
+L31:
+    dec_ref r86
+    goto L25
