@@ -1,3 +1,4 @@
 *.json
 scores.json
 *.so
+*.pyd
