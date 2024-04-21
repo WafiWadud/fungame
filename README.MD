@@ -17,7 +17,7 @@ For Arch
 
 ```bash
 pip install pyenchant
-sudo pacman -S libenchant aspell-en nuspell
+sudo pacman -S enchant aspell-en nuspell
 git clone https://github.com/WafiWadud/fungame
 python3 main.py
 ```
