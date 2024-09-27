@@ -19,6 +19,7 @@ For Arch
 pip install pyenchant
 sudo pacman -S enchant aspell-en nuspell
 git clone https://github.com/WafiWadud/fungame
+cd fungame
 python3 main.py
 ```
 
