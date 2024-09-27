@@ -27,13 +27,13 @@ Other linux chads and windows soyjaks try yourself
 There are precompiled .so files for linux chads in the build/lib.linux-86_64-cpython-311/ directory to run these files use the following commands
 ```bash
 git clone https://github.com/WafiWadud/fungame
-cd build/lib.linux-x86_64-cpython-311/
+cd fungame/build/lib.linux-x86_64-cpython-311/
 python3 -c 'import main'
 ```
 
 There are also precompiled .pyd files for windows soyjaks in the build/lib.win-amd64-cpython-311/ directory to run these files use the following commands
 ```bat
 git clone https://github.com/WafiWadud/fungame
-cd build/lib.win-amd64-cpython-311/
+cd fungame/build/lib.win-amd64-cpython-311/
 python3 -c 'import main'
 ```
