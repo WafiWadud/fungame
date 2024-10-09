@@ -12,6 +12,7 @@
 #include "exc_ops.c"
 #include "misc_ops.c"
 #include "generic_ops.c"
+#include "pythonsupport.c"
 #include "__native.h"
 #include "__native_internal.h"
 
