@@ -21,7 +21,7 @@ Game_init(PyObject *self, PyObject *args, PyObject *kwds)
 {
     return 0;
 }
-static PyObject *Game_setup(PyTypeObject *type);
+PyObject *CPyDef___mypyc__Game_setup(PyObject *cpy_r_type);
 PyObject *CPyDef_Game(PyObject *cpy_r_master);
 
 static PyObject *
@@ -31,7 +31,7 @@ Game_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
         PyErr_SetString(PyExc_TypeError, "interpreted classes cannot inherit from compiled");
         return NULL;
     }
-    PyObject *self = Game_setup(type);
+    PyObject *self = CPyDef___mypyc__Game_setup((PyObject*)type);
     if (self == NULL)
         return NULL;
     PyObject *ret = CPyPy_Game_____init__(self, args, kwds);
@@ -96,6 +96,7 @@ Game_dealloc(main___GameObject *self)
     Game_clear(self);
     Py_TYPE(self)->tp_free((PyObject *)self);
     CPy_TRASHCAN_END(self)
+    done: ;
 }
 
 static CPyVTableItem Game_vtable[8];
@@ -192,30 +193,31 @@ static PyGetSetDef Game_getseters[] = {
 };
 
 static PyMethodDef Game_methods[] = {
+    {"__internal_mypyc_setup", (PyCFunction)CPyDef___mypyc__Game_setup, METH_O, NULL},
     {"__init__",
      (PyCFunction)CPyPy_Game_____init__,
-     METH_FASTCALL | METH_KEYWORDS, NULL},
+     METH_FASTCALL | METH_KEYWORDS, PyDoc_STR("__init__($self, master)\n--\n\n")},
     {"update",
      (PyCFunction)CPyPy_Game___update,
-     METH_FASTCALL | METH_KEYWORDS, NULL},
+     METH_FASTCALL | METH_KEYWORDS, PyDoc_STR("update($self)\n--\n\n")},
     {"is_time_up",
      (PyCFunction)CPyPy_Game___is_time_up,
-     METH_FASTCALL | METH_KEYWORDS, NULL},
+     METH_FASTCALL | METH_KEYWORDS, PyDoc_STR("is_time_up($self)\n--\n\n")},
     {"end_game",
      (PyCFunction)CPyPy_Game___end_game,
-     METH_FASTCALL | METH_KEYWORDS, NULL},
+     METH_FASTCALL | METH_KEYWORDS, PyDoc_STR("end_game($self)\n--\n\n")},
     {"check_and_update_word",
      (PyCFunction)CPyPy_Game___check_and_update_word,
-     METH_FASTCALL | METH_KEYWORDS, NULL},
+     METH_FASTCALL | METH_KEYWORDS, PyDoc_STR("check_and_update_word($self)\n--\n\n")},
     {"level_up",
      (PyCFunction)CPyPy_Game___level_up,
-     METH_FASTCALL | METH_KEYWORDS, NULL},
+     METH_FASTCALL | METH_KEYWORDS, PyDoc_STR("level_up($self)\n--\n\n")},
     {"save_score",
      (PyCFunction)CPyPy_Game___save_score,
-     METH_FASTCALL | METH_KEYWORDS, NULL},
+     METH_FASTCALL | METH_KEYWORDS, PyDoc_STR("save_score($self, name, score)\n--\n\n")},
     {"show_leaderboard",
      (PyCFunction)CPyPy_Game___show_leaderboard,
-     METH_FASTCALL | METH_KEYWORDS, NULL},
+     METH_FASTCALL | METH_KEYWORDS, PyDoc_STR("show_leaderboard($self)\n--\n\n")},
     {"__setstate__", (PyCFunction)CPyPickle_SetState, METH_O, NULL},
     {"__getstate__", (PyCFunction)CPyPickle_GetState, METH_NOARGS, NULL},
     {NULL}  /* Sentinel */
@@ -233,12 +235,13 @@ static PyTypeObject CPyType_Game_template_ = {
     .tp_init = Game_init,
     .tp_basicsize = sizeof(main___GameObject),
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HEAPTYPE | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC,
+    .tp_doc = PyDoc_STR("Game(master)\n--\n\n"),
 };
 static PyTypeObject *CPyType_Game_template = &CPyType_Game_template_;
 
-static PyObject *
-Game_setup(PyTypeObject *type)
+PyObject *CPyDef___mypyc__Game_setup(PyObject *cpy_r_type)
 {
+    PyTypeObject *type = (PyTypeObject*)cpy_r_type;
     main___GameObject *self;
     self = (main___GameObject *)type->tp_alloc(type, 0);
     if (self == NULL)
@@ -253,7 +256,7 @@ Game_setup(PyTypeObject *type)
 
 PyObject *CPyDef_Game(PyObject *cpy_r_master)
 {
-    PyObject *self = Game_setup(CPyType_Game);
+    PyObject *self = CPyDef___mypyc__Game_setup((PyObject *)CPyType_Game);
     if (self == NULL)
         return NULL;
     char res = CPyDef_Game_____init__(self, cpy_r_master);
@@ -318,7 +321,20 @@ Game_set_scores(main___GameObject *self, PyObject *value, void *closure)
     if (self->_scores != NULL) {
         CPy_DECREF(self->_scores);
     }
-    PyObject *tmp = value;
+    PyObject *tmp;
+    tmp = value;
+    if (tmp != NULL) goto __LL1;
+    if (PyDict_Check(value))
+        tmp = value;
+    else {
+        tmp = NULL;
+    }
+    if (tmp != NULL) goto __LL1;
+    CPy_TypeError("union[object, dict]", value); 
+    tmp = NULL;
+__LL1: ;
+    if (!tmp)
+        return -1;
     CPy_INCREF(tmp);
     self->_scores = tmp;
     return 0;
@@ -581,7 +597,7 @@ Game_set_label(main___GameObject *self, PyObject *value, void *closure)
     return 0;
 }
 
-static PyObject *show_leaderboard_Game_env_setup(PyTypeObject *type);
+PyObject *CPyDef___mypyc__show_leaderboard_Game_env_setup(PyObject *cpy_r_type);
 PyObject *CPyDef_show_leaderboard_Game_env(void);
 
 static PyObject *
@@ -591,7 +607,10 @@ show_leaderboard_Game_env_new(PyTypeObject *type, PyObject *args, PyObject *kwds
         PyErr_SetString(PyExc_TypeError, "interpreted classes cannot inherit from compiled");
         return NULL;
     }
-    return show_leaderboard_Game_env_setup(type);
+    PyObject *self = CPyDef___mypyc__show_leaderboard_Game_env_setup((PyObject*)type);
+    if (self == NULL)
+        return NULL;
+    return self;
 }
 
 static int
@@ -620,10 +639,20 @@ static void
 show_leaderboard_Game_env_dealloc(main___show_leaderboard_Game_envObject *self)
 {
     PyObject_GC_UnTrack(self);
+    if (show_leaderboard_Game_env_free_instance == NULL) {
+        show_leaderboard_Game_env_free_instance = self;
+        Py_CLEAR(self->___mypyc_self__);
+        Py_CLEAR(self->_self);
+        Py_CLEAR(self->_leaderboard_window);
+        Py_CLEAR(self->_name);
+        Py_CLEAR(self->_score);
+        return;
+    }
     CPy_TRASHCAN_BEGIN(self, show_leaderboard_Game_env_dealloc)
     show_leaderboard_Game_env_clear(self);
     Py_TYPE(self)->tp_free((PyObject *)self);
     CPy_TRASHCAN_END(self)
+    done: ;
 }
 
 static CPyVTableItem show_leaderboard_Game_env_vtable[1];
@@ -638,6 +667,7 @@ CPyDef_show_leaderboard_Game_env_trait_vtable_setup(void)
 }
 
 static PyMethodDef show_leaderboard_Game_env_methods[] = {
+    {"__internal_mypyc_setup", (PyCFunction)CPyDef___mypyc__show_leaderboard_Game_env_setup, METH_O, NULL},
     {"__setstate__", (PyCFunction)CPyPickle_SetState, METH_O, NULL},
     {"__getstate__", (PyCFunction)CPyPickle_GetState, METH_NOARGS, NULL},
     {NULL}  /* Sentinel */
@@ -653,13 +683,21 @@ static PyTypeObject CPyType_show_leaderboard_Game_env_template_ = {
     .tp_methods = show_leaderboard_Game_env_methods,
     .tp_basicsize = sizeof(main___show_leaderboard_Game_envObject),
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HEAPTYPE | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC,
+    .tp_doc = PyDoc_STR("show_leaderboard_Game_env()\n--\n\n"),
 };
 static PyTypeObject *CPyType_show_leaderboard_Game_env_template = &CPyType_show_leaderboard_Game_env_template_;
 
-static PyObject *
-show_leaderboard_Game_env_setup(PyTypeObject *type)
+PyObject *CPyDef___mypyc__show_leaderboard_Game_env_setup(PyObject *cpy_r_type)
 {
+    PyTypeObject *type = (PyTypeObject*)cpy_r_type;
     main___show_leaderboard_Game_envObject *self;
+    if (show_leaderboard_Game_env_free_instance != NULL) {
+        self = show_leaderboard_Game_env_free_instance;
+        show_leaderboard_Game_env_free_instance = NULL;
+        Py_SET_REFCNT(self, 1);
+        PyObject_GC_Track(self);
+        return (PyObject *)self;
+    }
     self = (main___show_leaderboard_Game_envObject *)type->tp_alloc(type, 0);
     if (self == NULL)
         return NULL;
@@ -669,7 +707,7 @@ show_leaderboard_Game_env_setup(PyTypeObject *type)
 
 PyObject *CPyDef_show_leaderboard_Game_env(void)
 {
-    PyObject *self = show_leaderboard_Game_env_setup(CPyType_show_leaderboard_Game_env);
+    PyObject *self = CPyDef___mypyc__show_leaderboard_Game_env_setup((PyObject *)CPyType_show_leaderboard_Game_env);
     if (self == NULL)
         return NULL;
     return self;
@@ -680,7 +718,7 @@ static PyObject *CPyDunder___get____mypyc_lambda__0_show_leaderboard_Game_obj(Py
     instance = instance ? instance : Py_None;
     return CPyDef___mypyc_lambda__0_show_leaderboard_Game_obj_____get__(self, instance, owner);
 }
-static PyObject *__mypyc_lambda__0_show_leaderboard_Game_obj_setup(PyTypeObject *type);
+PyObject *CPyDef___mypyc___3__mypyc_lambda__0_show_leaderboard_Game_obj_setup(PyObject *cpy_r_type);
 PyObject *CPyDef___mypyc_lambda__0_show_leaderboard_Game_obj(void);
 
 static PyObject *
@@ -690,14 +728,17 @@ __mypyc_lambda__0_show_leaderboard_Game_obj_new(PyTypeObject *type, PyObject *ar
         PyErr_SetString(PyExc_TypeError, "interpreted classes cannot inherit from compiled");
         return NULL;
     }
-    return __mypyc_lambda__0_show_leaderboard_Game_obj_setup(type);
+    PyObject *self = CPyDef___mypyc___3__mypyc_lambda__0_show_leaderboard_Game_obj_setup((PyObject*)type);
+    if (self == NULL)
+        return NULL;
+    return self;
 }
 
 static int
 __mypyc_lambda__0_show_leaderboard_Game_obj_traverse(main_____mypyc_lambda__0_show_leaderboard_Game_objObject *self, visitproc visit, void *arg)
 {
     Py_VISIT(self->___mypyc_env__);
-    _PyObject_VisitManagedDict((PyObject *)self, visit, arg);
+    PyObject_VisitManagedDict((PyObject *)self, visit, arg);
     return 0;
 }
 
@@ -705,7 +746,7 @@ static int
 __mypyc_lambda__0_show_leaderboard_Game_obj_clear(main_____mypyc_lambda__0_show_leaderboard_Game_objObject *self)
 {
     Py_CLEAR(self->___mypyc_env__);
-    _PyObject_ClearManagedDict((PyObject *)self);
+    PyObject_ClearManagedDict((PyObject *)self);
     return 0;
 }
 
@@ -713,10 +754,16 @@ static void
 __mypyc_lambda__0_show_leaderboard_Game_obj_dealloc(main_____mypyc_lambda__0_show_leaderboard_Game_objObject *self)
 {
     PyObject_GC_UnTrack(self);
+    if (__mypyc_lambda__0_show_leaderboard_Game_obj_free_instance == NULL) {
+        __mypyc_lambda__0_show_leaderboard_Game_obj_free_instance = self;
+        Py_CLEAR(self->___mypyc_env__);
+        return;
+    }
     CPy_TRASHCAN_BEGIN(self, __mypyc_lambda__0_show_leaderboard_Game_obj_dealloc)
     __mypyc_lambda__0_show_leaderboard_Game_obj_clear(self);
     Py_TYPE(self)->tp_free((PyObject *)self);
     CPy_TRASHCAN_END(self)
+    done: ;
 }
 
 static CPyVTableItem __mypyc_lambda__0_show_leaderboard_Game_obj_vtable[2];
@@ -745,12 +792,13 @@ static PyGetSetDef __mypyc_lambda__0_show_leaderboard_Game_obj_getseters[] = {
 };
 
 static PyMethodDef __mypyc_lambda__0_show_leaderboard_Game_obj_methods[] = {
+    {"__internal_mypyc_setup", (PyCFunction)CPyDef___mypyc___3__mypyc_lambda__0_show_leaderboard_Game_obj_setup, METH_O, NULL},
     {"__call__",
      (PyCFunction)CPyPy___mypyc_lambda__0_show_leaderboard_Game_obj_____call__,
-     METH_FASTCALL | METH_KEYWORDS, NULL},
+     METH_FASTCALL | METH_KEYWORDS, PyDoc_STR("__call__($x)\n--\n\n")},
     {"__get__",
      (PyCFunction)CPyPy___mypyc_lambda__0_show_leaderboard_Game_obj_____get__,
-     METH_FASTCALL | METH_KEYWORDS, NULL},
+     METH_FASTCALL | METH_KEYWORDS, PyDoc_STR("__get__($instance, owner)\n--\n\n")},
     {"__setstate__", (PyCFunction)CPyPickle_SetState, METH_O, NULL},
     {"__getstate__", (PyCFunction)CPyPickle_GetState, METH_NOARGS, NULL},
     {NULL}  /* Sentinel */
@@ -770,13 +818,21 @@ static PyTypeObject CPyType___mypyc_lambda__0_show_leaderboard_Game_obj_template
     .tp_basicsize = sizeof(main_____mypyc_lambda__0_show_leaderboard_Game_objObject),
     .tp_vectorcall_offset = offsetof(main_____mypyc_lambda__0_show_leaderboard_Game_objObject, vectorcall),
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HEAPTYPE | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC | _Py_TPFLAGS_HAVE_VECTORCALL | Py_TPFLAGS_MANAGED_DICT,
+    .tp_doc = PyDoc_STR("__mypyc_lambda__0_show_leaderboard_Game_obj()\n--\n\n"),
 };
 static PyTypeObject *CPyType___mypyc_lambda__0_show_leaderboard_Game_obj_template = &CPyType___mypyc_lambda__0_show_leaderboard_Game_obj_template_;
 
-static PyObject *
-__mypyc_lambda__0_show_leaderboard_Game_obj_setup(PyTypeObject *type)
+PyObject *CPyDef___mypyc___3__mypyc_lambda__0_show_leaderboard_Game_obj_setup(PyObject *cpy_r_type)
 {
+    PyTypeObject *type = (PyTypeObject*)cpy_r_type;
     main_____mypyc_lambda__0_show_leaderboard_Game_objObject *self;
+    if (__mypyc_lambda__0_show_leaderboard_Game_obj_free_instance != NULL) {
+        self = __mypyc_lambda__0_show_leaderboard_Game_obj_free_instance;
+        __mypyc_lambda__0_show_leaderboard_Game_obj_free_instance = NULL;
+        Py_SET_REFCNT(self, 1);
+        PyObject_GC_Track(self);
+        return (PyObject *)self;
+    }
     self = (main_____mypyc_lambda__0_show_leaderboard_Game_objObject *)type->tp_alloc(type, 0);
     if (self == NULL)
         return NULL;
@@ -787,7 +843,7 @@ __mypyc_lambda__0_show_leaderboard_Game_obj_setup(PyTypeObject *type)
 
 PyObject *CPyDef___mypyc_lambda__0_show_leaderboard_Game_obj(void)
 {
-    PyObject *self = __mypyc_lambda__0_show_leaderboard_Game_obj_setup(CPyType___mypyc_lambda__0_show_leaderboard_Game_obj);
+    PyObject *self = CPyDef___mypyc___3__mypyc_lambda__0_show_leaderboard_Game_obj_setup((PyObject *)CPyType___mypyc_lambda__0_show_leaderboard_Game_obj);
     if (self == NULL)
         return NULL;
     return self;
@@ -801,7 +857,7 @@ __mypyc_lambda__0_show_leaderboard_Game_obj_get___3_mypyc_env__(main_____mypyc_l
             "attribute '__mypyc_env__' of '__mypyc_lambda__0_show_leaderboard_Game_obj' undefined");
         return NULL;
     }
-    CPy_INCREF(self->___mypyc_env__);
+    CPy_INCREF_NO_IMM(self->___mypyc_env__);
     PyObject *retval = self->___mypyc_env__;
     return retval;
 }
@@ -815,7 +871,7 @@ __mypyc_lambda__0_show_leaderboard_Game_obj_set___3_mypyc_env__(main_____mypyc_l
         return -1;
     }
     if (self->___mypyc_env__ != NULL) {
-        CPy_DECREF(self->___mypyc_env__);
+        CPy_DECREF_NO_IMM(self->___mypyc_env__);
     }
     PyObject *tmp;
     if (likely(Py_TYPE(value) == CPyType_show_leaderboard_Game_env))
@@ -826,7 +882,7 @@ __mypyc_lambda__0_show_leaderboard_Game_obj_set___3_mypyc_env__(main_____mypyc_l
     }
     if (!tmp)
         return -1;
-    CPy_INCREF(tmp);
+    CPy_INCREF_NO_IMM(tmp);
     self->___mypyc_env__ = tmp;
     return 0;
 }
@@ -834,48 +890,58 @@ static PyMethodDef module_methods[] = {
     {NULL, NULL, 0, NULL}
 };
 
-static struct PyModuleDef module = {
-    PyModuleDef_HEAD_INIT,
-    "main",
-    NULL, /* docstring */
-    -1,       /* size of per-interpreter state of the module,
-                 or -1 if the module keeps state in global variables. */
-    module_methods
-};
-
-PyMODINIT_FUNC PyInit_main(void)
+int CPyExec_main(PyObject *module)
 {
     PyObject* modname = NULL;
-    if (CPyModule_main_internal) {
-        Py_INCREF(CPyModule_main_internal);
-        return CPyModule_main_internal;
-    }
-    CPyModule_main_internal = PyModule_Create(&module);
-    if (unlikely(CPyModule_main_internal == NULL))
-        goto fail;
-    modname = PyObject_GetAttrString((PyObject *)CPyModule_main_internal, "__name__");
-    CPyStatic_globals = PyModule_GetDict(CPyModule_main_internal);
+    modname = PyObject_GetAttrString((PyObject *)CPyModule_main__internal, "__name__");
+    CPyStatic_globals = PyModule_GetDict(CPyModule_main__internal);
     if (unlikely(CPyStatic_globals == NULL))
         goto fail;
     CPyType_show_leaderboard_Game_env = (PyTypeObject *)CPyType_FromTemplate((PyObject *)CPyType_show_leaderboard_Game_env_template, NULL, modname);
     if (unlikely(!CPyType_show_leaderboard_Game_env))
         goto fail;
+    CPyDef_show_leaderboard_Game_env_trait_vtable_setup();
     CPyType___mypyc_lambda__0_show_leaderboard_Game_obj = (PyTypeObject *)CPyType_FromTemplate((PyObject *)CPyType___mypyc_lambda__0_show_leaderboard_Game_obj_template, NULL, modname);
     if (unlikely(!CPyType___mypyc_lambda__0_show_leaderboard_Game_obj))
         goto fail;
+    CPyDef___mypyc_lambda__0_show_leaderboard_Game_obj_trait_vtable_setup();
     if (CPyGlobalsInit() < 0)
         goto fail;
     char result = CPyDef___top_level__();
     if (result == 2)
         goto fail;
     Py_DECREF(modname);
-    return CPyModule_main_internal;
+    return 0;
     fail:
-    Py_CLEAR(CPyModule_main_internal);
+    Py_CLEAR(CPyModule_main__internal);
     Py_CLEAR(modname);
     Py_CLEAR(CPyType_Game);
     Py_CLEAR(CPyType_show_leaderboard_Game_env);
     Py_CLEAR(CPyType___mypyc_lambda__0_show_leaderboard_Game_obj);
+    return -1;
+}
+static struct PyModuleDef module = {
+    PyModuleDef_HEAD_INIT,
+    "main",
+    NULL, /* docstring */
+    0,       /* size of per-interpreter state of the module */
+    module_methods,
+    NULL,
+};
+
+PyMODINIT_FUNC PyInit_main(void)
+{
+    if (CPyModule_main__internal) {
+        Py_INCREF(CPyModule_main__internal);
+        return CPyModule_main__internal;
+    }
+    CPyModule_main__internal = PyModule_Create(&module);
+    if (unlikely(CPyModule_main__internal == NULL))
+        goto fail;
+    if (CPyExec_main(CPyModule_main__internal) != 0)
+        goto fail;
+    return CPyModule_main__internal;
+    fail:
     return NULL;
 }
 
@@ -959,7 +1025,7 @@ char CPyDef_Game_____init__(PyObject *cpy_r_self, PyObject *cpy_r_master) {
     }
     PyObject *cpy_r_r4[1] = {cpy_r_r0};
     cpy_r_r5 = (PyObject **)&cpy_r_r4;
-    cpy_r_r6 = _PyObject_Vectorcall(cpy_r_r3, cpy_r_r5, 1, 0);
+    cpy_r_r6 = PyObject_Vectorcall(cpy_r_r3, cpy_r_r5, 1, 0);
     CPy_DECREF(cpy_r_r3);
     if (unlikely(cpy_r_r6 == NULL)) {
         CPy_AddTraceback("main.py", "__init__", 37, CPyStatic_globals);
@@ -976,7 +1042,7 @@ char CPyDef_Game_____init__(PyObject *cpy_r_self, PyObject *cpy_r_master) {
     }
     PyObject *cpy_r_r11[1] = {cpy_r_r7};
     cpy_r_r12 = (PyObject **)&cpy_r_r11;
-    cpy_r_r13 = _PyObject_Vectorcall(cpy_r_r10, cpy_r_r12, 1, 0);
+    cpy_r_r13 = PyObject_Vectorcall(cpy_r_r10, cpy_r_r12, 1, 0);
     CPy_DECREF(cpy_r_r10);
     if (unlikely(cpy_r_r13 == NULL)) {
         CPy_AddTraceback("main.py", "__init__", 40, CPyStatic_globals);
@@ -1003,7 +1069,7 @@ char CPyDef_Game_____init__(PyObject *cpy_r_self, PyObject *cpy_r_master) {
     }
     PyObject *cpy_r_r20[2] = {cpy_r_r15, cpy_r_r16};
     cpy_r_r21 = (PyObject **)&cpy_r_r20;
-    cpy_r_r22 = _PyObject_Vectorcall(cpy_r_r19, cpy_r_r21, 2, 0);
+    cpy_r_r22 = PyObject_Vectorcall(cpy_r_r19, cpy_r_r21, 2, 0);
     CPy_DECREF(cpy_r_r19);
     if (unlikely(cpy_r_r22 == NULL)) {
         CPy_AddTraceback("main.py", "__init__", 39, CPyStatic_globals);
@@ -1018,7 +1084,7 @@ char CPyDef_Game_____init__(PyObject *cpy_r_self, PyObject *cpy_r_master) {
     }
     PyObject *cpy_r_r26[1] = {cpy_r_r22};
     cpy_r_r27 = (PyObject **)&cpy_r_r26;
-    cpy_r_r28 = _PyObject_Vectorcall(cpy_r_r25, cpy_r_r27, 1, 0);
+    cpy_r_r28 = PyObject_Vectorcall(cpy_r_r25, cpy_r_r27, 1, 0);
     CPy_DECREF(cpy_r_r25);
     if (unlikely(cpy_r_r28 == NULL)) {
         CPy_AddTraceback("main.py", "__init__", 39, CPyStatic_globals);
@@ -1038,7 +1104,7 @@ CPyL11: ;
     }
     PyObject *cpy_r_r34[1] = {cpy_r_r30};
     cpy_r_r35 = (PyObject **)&cpy_r_r34;
-    cpy_r_r36 = _PyObject_Vectorcall(cpy_r_r33, cpy_r_r35, 1, 0);
+    cpy_r_r36 = PyObject_Vectorcall(cpy_r_r33, cpy_r_r35, 1, 0);
     CPy_DECREF(cpy_r_r33);
     if (unlikely(cpy_r_r36 == NULL)) {
         CPy_AddTraceback("main.py", "__init__", 41, CPyStatic_globals);
@@ -1065,7 +1131,7 @@ CPyL15: ;
         CPy_AddTraceback("main.py", "__init__", 48, CPyStatic_globals);
         goto CPyL29;
     }
-    cpy_r_r41 = _PyObject_Vectorcall(cpy_r_r40, 0, 0, 0);
+    cpy_r_r41 = PyObject_Vectorcall(cpy_r_r40, 0, 0, 0);
     CPy_DECREF(cpy_r_r40);
     if (unlikely(cpy_r_r41 == NULL)) {
         CPy_AddTraceback("main.py", "__init__", 48, CPyStatic_globals);
@@ -1104,7 +1170,7 @@ CPyL20: ;
     }
     PyObject *cpy_r_r49[1] = {cpy_r_master};
     cpy_r_r50 = (PyObject **)&cpy_r_r49;
-    cpy_r_r51 = _PyObject_Vectorcall(cpy_r_r48, cpy_r_r50, 1, 0);
+    cpy_r_r51 = PyObject_Vectorcall(cpy_r_r48, cpy_r_r50, 1, 0);
     CPy_DECREF(cpy_r_r48);
     if (unlikely(cpy_r_r51 == NULL)) {
         CPy_AddTraceback("main.py", "__init__", 50, CPyStatic_globals);
@@ -1135,7 +1201,7 @@ CPyL23: ;
     PyObject *cpy_r_r61[2] = {cpy_r_master, cpy_r_r57};
     cpy_r_r62 = (PyObject **)&cpy_r_r61;
     cpy_r_r63 = CPyStatics[73]; /* ('text',) */
-    cpy_r_r64 = _PyObject_Vectorcall(cpy_r_r60, cpy_r_r62, 1, cpy_r_r63);
+    cpy_r_r64 = PyObject_Vectorcall(cpy_r_r60, cpy_r_r62, 1, cpy_r_r63);
     CPy_DECREF(cpy_r_r60);
     if (unlikely(cpy_r_r64 == NULL)) {
         CPy_AddTraceback("main.py", "__init__", 53, CPyStatic_globals);
@@ -1356,7 +1422,7 @@ char CPyDef_Game___is_time_up(PyObject *cpy_r_self) {
         CPy_AddTraceback("main.py", "is_time_up", 79, CPyStatic_globals);
         goto CPyL7;
     }
-    cpy_r_r3 = _PyObject_Vectorcall(cpy_r_r2, 0, 0, 0);
+    cpy_r_r3 = PyObject_Vectorcall(cpy_r_r2, 0, 0, 0);
     CPy_DECREF(cpy_r_r2);
     if (unlikely(cpy_r_r3 == NULL)) {
         CPy_AddTraceback("main.py", "is_time_up", 79, CPyStatic_globals);
@@ -1473,7 +1539,7 @@ CPyL1: ;
     }
     PyObject *cpy_r_r12[2] = {cpy_r_r7, cpy_r_r8};
     cpy_r_r13 = (PyObject **)&cpy_r_r12;
-    cpy_r_r14 = _PyObject_Vectorcall(cpy_r_r11, cpy_r_r13, 2, 0);
+    cpy_r_r14 = PyObject_Vectorcall(cpy_r_r11, cpy_r_r13, 2, 0);
     CPy_DECREF(cpy_r_r11);
     if (unlikely(cpy_r_r14 == NULL)) {
         CPy_AddTraceback("main.py", "end_game", 89, CPyStatic_globals);
@@ -1484,16 +1550,16 @@ CPyL1: ;
     else {
         cpy_r_r15 = NULL;
     }
-    if (cpy_r_r15 != NULL) goto __LL1;
+    if (cpy_r_r15 != NULL) goto __LL2;
     if (cpy_r_r14 == Py_None)
         cpy_r_r15 = cpy_r_r14;
     else {
         cpy_r_r15 = NULL;
     }
-    if (cpy_r_r15 != NULL) goto __LL1;
+    if (cpy_r_r15 != NULL) goto __LL2;
     CPy_TypeErrorTraceback("main.py", "end_game", 89, CPyStatic_globals, "str or None", cpy_r_r14);
     goto CPyL7;
-__LL1: ;
+__LL2: ;
     cpy_r_r16 = ((main___GameObject *)cpy_r_self)->_score;
     CPyTagged_INCREF(cpy_r_r16);
     cpy_r_r17 = CPyDef_Game___save_score(cpy_r_self, cpy_r_r15, cpy_r_r16);
@@ -1777,7 +1843,7 @@ CPyL1: ;
         CPy_AddTraceback("main.py", "level_up", 119, CPyStatic_globals);
         goto CPyL11;
     }
-    cpy_r_r19 = _PyObject_Vectorcall(cpy_r_r18, 0, 0, 0);
+    cpy_r_r19 = PyObject_Vectorcall(cpy_r_r18, 0, 0, 0);
     CPy_DECREF(cpy_r_r18);
     if (unlikely(cpy_r_r19 == NULL)) {
         CPy_AddTraceback("main.py", "level_up", 119, CPyStatic_globals);
@@ -1911,271 +1977,276 @@ fail: ;
 char CPyDef_Game___save_score(PyObject *cpy_r_self, PyObject *cpy_r_name, CPyTagged cpy_r_score) {
     PyObject *cpy_r_r0;
     PyObject *cpy_r_r1;
-    int32_t cpy_r_r2;
-    char cpy_r_r3;
-    PyObject *cpy_r_r4;
+    PyObject *cpy_r_r2;
+    int32_t cpy_r_r3;
+    char cpy_r_r4;
     PyObject *cpy_r_r5;
     PyObject *cpy_r_r6;
     PyObject *cpy_r_r7;
     PyObject *cpy_r_r8;
-    PyObject **cpy_r_r10;
-    PyObject *cpy_r_r11;
-    PyObject *cpy_r_r12;
+    PyObject *cpy_r_r9;
+    PyObject *cpy_r_r10;
+    PyObject **cpy_r_r12;
     PyObject *cpy_r_r13;
     PyObject *cpy_r_r14;
     PyObject *cpy_r_r15;
     PyObject *cpy_r_r16;
-    PyObject **cpy_r_r18;
-    PyObject *cpy_r_r19;
-    char cpy_r_r20;
+    PyObject *cpy_r_r17;
+    PyObject *cpy_r_r18;
+    PyObject **cpy_r_r20;
     PyObject *cpy_r_r21;
-    PyObject *cpy_r_r22;
+    char cpy_r_r22;
     PyObject *cpy_r_r23;
     PyObject *cpy_r_r24;
-    PyObject **cpy_r_r26;
-    PyObject *cpy_r_r27;
-    tuple_T3OOO cpy_r_r28;
-    tuple_T3OOO cpy_r_r29;
-    PyObject *cpy_r_r30;
-    PyObject *cpy_r_r31;
+    PyObject *cpy_r_r25;
+    PyObject *cpy_r_r26;
+    PyObject **cpy_r_r28;
+    PyObject *cpy_r_r29;
+    tuple_T3OOO cpy_r_r30;
+    tuple_T3OOO cpy_r_r31;
     PyObject *cpy_r_r32;
-    PyObject **cpy_r_r34;
-    PyObject *cpy_r_r35;
-    int32_t cpy_r_r36;
-    char cpy_r_r37;
-    char cpy_r_r38;
+    PyObject *cpy_r_r33;
+    PyObject *cpy_r_r34;
+    PyObject **cpy_r_r36;
+    PyObject *cpy_r_r37;
+    int32_t cpy_r_r38;
     char cpy_r_r39;
-    tuple_T3OOO cpy_r_r40;
-    tuple_T3OOO cpy_r_r41;
+    char cpy_r_r40;
+    char cpy_r_r41;
     tuple_T3OOO cpy_r_r42;
-    PyObject *cpy_r_r43;
-    PyObject **cpy_r_r45;
-    PyObject *cpy_r_r46;
-    char cpy_r_r47;
-    char cpy_r_r48;
+    tuple_T3OOO cpy_r_r43;
+    tuple_T3OOO cpy_r_r44;
+    PyObject *cpy_r_r45;
+    PyObject **cpy_r_r47;
+    PyObject *cpy_r_r48;
+    char cpy_r_r49;
+    char cpy_r_r50;
     cpy_r_r0 = ((main___GameObject *)cpy_r_self)->_scores;
     CPy_INCREF(cpy_r_r0);
+    cpy_r_r1 = cpy_r_r0;
     CPyTagged_INCREF(cpy_r_score);
-    cpy_r_r1 = CPyTagged_StealAsObject(cpy_r_score);
-    cpy_r_r2 = PyObject_SetItem(cpy_r_r0, cpy_r_name, cpy_r_r1);
-    CPy_DECREF(cpy_r_r0);
+    cpy_r_r2 = CPyTagged_StealAsObject(cpy_r_score);
+    cpy_r_r3 = PyObject_SetItem(cpy_r_r1, cpy_r_name, cpy_r_r2);
     CPy_DECREF(cpy_r_r1);
-    cpy_r_r3 = cpy_r_r2 >= 0;
-    if (unlikely(!cpy_r_r3)) {
+    CPy_DECREF(cpy_r_r2);
+    cpy_r_r4 = cpy_r_r3 >= 0;
+    if (unlikely(!cpy_r_r4)) {
         CPy_AddTraceback("main.py", "save_score", 135, CPyStatic_globals);
-        goto CPyL31;
+        goto CPyL32;
     }
-    cpy_r_r4 = CPyStatics[5]; /* 'scores.json' */
-    cpy_r_r5 = CPyStatics[31]; /* 'w' */
-    cpy_r_r6 = CPyModule_builtins;
-    cpy_r_r7 = CPyStatics[8]; /* 'open' */
-    cpy_r_r8 = CPyObject_GetAttr(cpy_r_r6, cpy_r_r7);
-    if (unlikely(cpy_r_r8 == NULL)) {
-        CPy_AddTraceback("main.py", "save_score", 136, CPyStatic_globals);
-        goto CPyL31;
-    }
-    PyObject *cpy_r_r9[2] = {cpy_r_r4, cpy_r_r5};
-    cpy_r_r10 = (PyObject **)&cpy_r_r9;
-    cpy_r_r11 = _PyObject_Vectorcall(cpy_r_r8, cpy_r_r10, 2, 0);
-    CPy_DECREF(cpy_r_r8);
-    if (unlikely(cpy_r_r11 == NULL)) {
-        CPy_AddTraceback("main.py", "save_score", 136, CPyStatic_globals);
-        goto CPyL31;
-    }
-    cpy_r_r12 = PyObject_Type(cpy_r_r11);
-    cpy_r_r13 = CPyStatics[32]; /* '__exit__' */
-    cpy_r_r14 = CPyObject_GetAttr(cpy_r_r12, cpy_r_r13);
-    if (unlikely(cpy_r_r14 == NULL)) {
+    cpy_r_r5 = PyLong_FromLong(cpy_r_r3);
+    CPy_DECREF(cpy_r_r5);
+    cpy_r_r6 = CPyStatics[5]; /* 'scores.json' */
+    cpy_r_r7 = CPyStatics[31]; /* 'w' */
+    cpy_r_r8 = CPyModule_builtins;
+    cpy_r_r9 = CPyStatics[8]; /* 'open' */
+    cpy_r_r10 = CPyObject_GetAttr(cpy_r_r8, cpy_r_r9);
+    if (unlikely(cpy_r_r10 == NULL)) {
         CPy_AddTraceback("main.py", "save_score", 136, CPyStatic_globals);
         goto CPyL32;
     }
-    cpy_r_r15 = CPyStatics[33]; /* '__enter__' */
-    cpy_r_r16 = CPyObject_GetAttr(cpy_r_r12, cpy_r_r15);
-    CPy_DECREF(cpy_r_r12);
+    PyObject *cpy_r_r11[2] = {cpy_r_r6, cpy_r_r7};
+    cpy_r_r12 = (PyObject **)&cpy_r_r11;
+    cpy_r_r13 = PyObject_Vectorcall(cpy_r_r10, cpy_r_r12, 2, 0);
+    CPy_DECREF(cpy_r_r10);
+    if (unlikely(cpy_r_r13 == NULL)) {
+        CPy_AddTraceback("main.py", "save_score", 136, CPyStatic_globals);
+        goto CPyL32;
+    }
+    cpy_r_r14 = CPy_TYPE(cpy_r_r13);
+    cpy_r_r15 = CPyStatics[32]; /* '__exit__' */
+    cpy_r_r16 = CPyObject_GetAttr(cpy_r_r14, cpy_r_r15);
     if (unlikely(cpy_r_r16 == NULL)) {
         CPy_AddTraceback("main.py", "save_score", 136, CPyStatic_globals);
         goto CPyL33;
     }
-    PyObject *cpy_r_r17[1] = {cpy_r_r11};
-    cpy_r_r18 = (PyObject **)&cpy_r_r17;
-    cpy_r_r19 = _PyObject_Vectorcall(cpy_r_r16, cpy_r_r18, 1, 0);
-    CPy_DECREF(cpy_r_r16);
-    if (unlikely(cpy_r_r19 == NULL)) {
+    cpy_r_r17 = CPyStatics[33]; /* '__enter__' */
+    cpy_r_r18 = CPyObject_GetAttr(cpy_r_r14, cpy_r_r17);
+    CPy_DECREF(cpy_r_r14);
+    if (unlikely(cpy_r_r18 == NULL)) {
         CPy_AddTraceback("main.py", "save_score", 136, CPyStatic_globals);
-        goto CPyL33;
-    }
-    cpy_r_r20 = 1;
-    cpy_r_r21 = ((main___GameObject *)cpy_r_self)->_scores;
-    CPy_INCREF(cpy_r_r21);
-    cpy_r_r22 = CPyStatic_globals;
-    cpy_r_r23 = CPyStatics[34]; /* 'dump' */
-    cpy_r_r24 = CPyDict_GetItem(cpy_r_r22, cpy_r_r23);
-    if (unlikely(cpy_r_r24 == NULL)) {
-        CPy_AddTraceback("main.py", "save_score", 137, CPyStatic_globals);
         goto CPyL34;
     }
-    PyObject *cpy_r_r25[2] = {cpy_r_r21, cpy_r_r19};
-    cpy_r_r26 = (PyObject **)&cpy_r_r25;
-    cpy_r_r27 = _PyObject_Vectorcall(cpy_r_r24, cpy_r_r26, 2, 0);
-    CPy_DECREF(cpy_r_r24);
-    if (unlikely(cpy_r_r27 == NULL)) {
-        CPy_AddTraceback("main.py", "save_score", 137, CPyStatic_globals);
+    PyObject *cpy_r_r19[1] = {cpy_r_r13};
+    cpy_r_r20 = (PyObject **)&cpy_r_r19;
+    cpy_r_r21 = PyObject_Vectorcall(cpy_r_r18, cpy_r_r20, 1, 0);
+    CPy_DECREF(cpy_r_r18);
+    if (unlikely(cpy_r_r21 == NULL)) {
+        CPy_AddTraceback("main.py", "save_score", 136, CPyStatic_globals);
         goto CPyL34;
-    } else
+    }
+    cpy_r_r22 = 1;
+    cpy_r_r23 = ((main___GameObject *)cpy_r_self)->_scores;
+    CPy_INCREF(cpy_r_r23);
+    cpy_r_r24 = CPyStatic_globals;
+    cpy_r_r25 = CPyStatics[34]; /* 'dump' */
+    cpy_r_r26 = CPyDict_GetItem(cpy_r_r24, cpy_r_r25);
+    if (unlikely(cpy_r_r26 == NULL)) {
+        CPy_AddTraceback("main.py", "save_score", 137, CPyStatic_globals);
         goto CPyL35;
-CPyL9: ;
-    CPy_DECREF(cpy_r_r21);
-    CPy_DECREF(cpy_r_r19);
-    goto CPyL18;
-CPyL10: ;
-    cpy_r_r28 = CPy_CatchError();
-    cpy_r_r20 = 0;
-    cpy_r_r29 = CPy_GetExcInfo();
-    cpy_r_r30 = cpy_r_r29.f0;
-    CPy_INCREF(cpy_r_r30);
-    cpy_r_r31 = cpy_r_r29.f1;
-    CPy_INCREF(cpy_r_r31);
-    cpy_r_r32 = cpy_r_r29.f2;
-    CPy_INCREF(cpy_r_r32);
-    CPy_DecRef(cpy_r_r29.f0);
-    CPy_DecRef(cpy_r_r29.f1);
-    CPy_DecRef(cpy_r_r29.f2);
-    PyObject *cpy_r_r33[4] = {cpy_r_r11, cpy_r_r30, cpy_r_r31, cpy_r_r32};
-    cpy_r_r34 = (PyObject **)&cpy_r_r33;
-    cpy_r_r35 = _PyObject_Vectorcall(cpy_r_r14, cpy_r_r34, 4, 0);
-    if (unlikely(cpy_r_r35 == NULL)) {
-        CPy_AddTraceback("main.py", "save_score", 136, CPyStatic_globals);
+    }
+    PyObject *cpy_r_r27[2] = {cpy_r_r23, cpy_r_r21};
+    cpy_r_r28 = (PyObject **)&cpy_r_r27;
+    cpy_r_r29 = PyObject_Vectorcall(cpy_r_r26, cpy_r_r28, 2, 0);
+    CPy_DECREF(cpy_r_r26);
+    if (unlikely(cpy_r_r29 == NULL)) {
+        CPy_AddTraceback("main.py", "save_score", 137, CPyStatic_globals);
+        goto CPyL35;
+    } else
         goto CPyL36;
-    }
-    CPy_DecRef(cpy_r_r30);
-    CPy_DecRef(cpy_r_r31);
-    CPy_DecRef(cpy_r_r32);
-    cpy_r_r36 = PyObject_IsTrue(cpy_r_r35);
-    CPy_DecRef(cpy_r_r35);
-    cpy_r_r37 = cpy_r_r36 >= 0;
-    if (unlikely(!cpy_r_r37)) {
+CPyL10: ;
+    CPy_DECREF(cpy_r_r23);
+    CPy_DECREF(cpy_r_r21);
+    goto CPyL19;
+CPyL11: ;
+    cpy_r_r30 = CPy_CatchError();
+    cpy_r_r22 = 0;
+    cpy_r_r31 = CPy_GetExcInfo();
+    cpy_r_r32 = cpy_r_r31.f0;
+    CPy_INCREF(cpy_r_r32);
+    cpy_r_r33 = cpy_r_r31.f1;
+    CPy_INCREF(cpy_r_r33);
+    cpy_r_r34 = cpy_r_r31.f2;
+    CPy_INCREF(cpy_r_r34);
+    CPy_DecRef(cpy_r_r31.f0);
+    CPy_DecRef(cpy_r_r31.f1);
+    CPy_DecRef(cpy_r_r31.f2);
+    PyObject *cpy_r_r35[4] = {cpy_r_r13, cpy_r_r32, cpy_r_r33, cpy_r_r34};
+    cpy_r_r36 = (PyObject **)&cpy_r_r35;
+    cpy_r_r37 = PyObject_Vectorcall(cpy_r_r16, cpy_r_r36, 4, 0);
+    if (unlikely(cpy_r_r37 == NULL)) {
         CPy_AddTraceback("main.py", "save_score", 136, CPyStatic_globals);
-        goto CPyL16;
+        goto CPyL37;
     }
-    cpy_r_r38 = cpy_r_r36;
-    if (cpy_r_r38) goto CPyL15;
+    CPy_DecRef(cpy_r_r32);
+    CPy_DecRef(cpy_r_r33);
+    CPy_DecRef(cpy_r_r34);
+    cpy_r_r38 = PyObject_IsTrue(cpy_r_r37);
+    CPy_DecRef(cpy_r_r37);
+    cpy_r_r39 = cpy_r_r38 >= 0;
+    if (unlikely(!cpy_r_r39)) {
+        CPy_AddTraceback("main.py", "save_score", 136, CPyStatic_globals);
+        goto CPyL17;
+    }
+    cpy_r_r40 = cpy_r_r38;
+    if (cpy_r_r40) goto CPyL16;
     CPy_Reraise();
     if (!0) {
-        goto CPyL16;
-    } else
-        goto CPyL37;
-CPyL14: ;
-    CPy_Unreachable();
-CPyL15: ;
-    CPy_RestoreExcInfo(cpy_r_r28);
-    CPy_DecRef(cpy_r_r28.f0);
-    CPy_DecRef(cpy_r_r28.f1);
-    CPy_DecRef(cpy_r_r28.f2);
-    goto CPyL18;
-CPyL16: ;
-    CPy_RestoreExcInfo(cpy_r_r28);
-    CPy_DecRef(cpy_r_r28.f0);
-    CPy_DecRef(cpy_r_r28.f1);
-    CPy_DecRef(cpy_r_r28.f2);
-    cpy_r_r39 = CPy_KeepPropagating();
-    if (!cpy_r_r39) {
-        goto CPyL19;
+        goto CPyL17;
     } else
         goto CPyL38;
-CPyL17: ;
+CPyL15: ;
     CPy_Unreachable();
-CPyL18: ;
-    tuple_T3OOO __tmp2 = { NULL, NULL, NULL };
-    cpy_r_r40 = __tmp2;
-    cpy_r_r41 = cpy_r_r40;
-    goto CPyL20;
-CPyL19: ;
-    cpy_r_r42 = CPy_CatchError();
-    cpy_r_r41 = cpy_r_r42;
-CPyL20: ;
-    if (!cpy_r_r20) goto CPyL39;
-    cpy_r_r43 = (PyObject *)&_Py_NoneStruct;
-    PyObject *cpy_r_r44[4] = {cpy_r_r11, cpy_r_r43, cpy_r_r43, cpy_r_r43};
-    cpy_r_r45 = (PyObject **)&cpy_r_r44;
-    cpy_r_r46 = _PyObject_Vectorcall(cpy_r_r14, cpy_r_r45, 4, 0);
-    CPy_DECREF(cpy_r_r14);
-    if (unlikely(cpy_r_r46 == NULL)) {
-        CPy_AddTraceback("main.py", "save_score", 136, CPyStatic_globals);
-        goto CPyL40;
+CPyL16: ;
+    CPy_RestoreExcInfo(cpy_r_r30);
+    CPy_DecRef(cpy_r_r30.f0);
+    CPy_DecRef(cpy_r_r30.f1);
+    CPy_DecRef(cpy_r_r30.f2);
+    goto CPyL19;
+CPyL17: ;
+    CPy_RestoreExcInfo(cpy_r_r30);
+    CPy_DecRef(cpy_r_r30.f0);
+    CPy_DecRef(cpy_r_r30.f1);
+    CPy_DecRef(cpy_r_r30.f2);
+    cpy_r_r41 = CPy_KeepPropagating();
+    if (!cpy_r_r41) {
+        goto CPyL20;
     } else
+        goto CPyL39;
+CPyL18: ;
+    CPy_Unreachable();
+CPyL19: ;
+    tuple_T3OOO __tmp3 = { NULL, NULL, NULL };
+    cpy_r_r42 = __tmp3;
+    cpy_r_r43 = cpy_r_r42;
+    goto CPyL21;
+CPyL20: ;
+    cpy_r_r44 = CPy_CatchError();
+    cpy_r_r43 = cpy_r_r44;
+CPyL21: ;
+    if (!cpy_r_r22) goto CPyL40;
+    cpy_r_r45 = (PyObject *)&_Py_NoneStruct;
+    PyObject *cpy_r_r46[4] = {cpy_r_r13, cpy_r_r45, cpy_r_r45, cpy_r_r45};
+    cpy_r_r47 = (PyObject **)&cpy_r_r46;
+    cpy_r_r48 = PyObject_Vectorcall(cpy_r_r16, cpy_r_r47, 4, 0);
+    CPy_DECREF(cpy_r_r16);
+    if (unlikely(cpy_r_r48 == NULL)) {
+        CPy_AddTraceback("main.py", "save_score", 136, CPyStatic_globals);
         goto CPyL41;
-CPyL22: ;
-    CPy_DECREF(cpy_r_r11);
-CPyL23: ;
-    if (cpy_r_r41.f0 == NULL) goto CPyL30;
-    CPy_Reraise();
-    if (!0) {
-        goto CPyL26;
     } else
         goto CPyL42;
-CPyL25: ;
-    CPy_Unreachable();
+CPyL23: ;
+    CPy_DECREF(cpy_r_r13);
+CPyL24: ;
+    if (cpy_r_r43.f0 == NULL) goto CPyL31;
+    CPy_Reraise();
+    if (!0) {
+        goto CPyL27;
+    } else
+        goto CPyL43;
 CPyL26: ;
-    if (cpy_r_r41.f0 == NULL) goto CPyL28;
-    CPy_RestoreExcInfo(cpy_r_r41);
-    CPy_XDECREF(cpy_r_r41.f0);
-    CPy_XDECREF(cpy_r_r41.f1);
-    CPy_XDECREF(cpy_r_r41.f2);
-CPyL28: ;
-    cpy_r_r47 = CPy_KeepPropagating();
-    if (!cpy_r_r47) goto CPyL31;
     CPy_Unreachable();
-CPyL30: ;
-    return 1;
+CPyL27: ;
+    if (cpy_r_r43.f0 == NULL) goto CPyL29;
+    CPy_RestoreExcInfo(cpy_r_r43);
+    CPy_XDECREF(cpy_r_r43.f0);
+    CPy_XDECREF(cpy_r_r43.f1);
+    CPy_XDECREF(cpy_r_r43.f2);
+CPyL29: ;
+    cpy_r_r49 = CPy_KeepPropagating();
+    if (!cpy_r_r49) goto CPyL32;
+    CPy_Unreachable();
 CPyL31: ;
-    cpy_r_r48 = 2;
-    return cpy_r_r48;
+    return 1;
 CPyL32: ;
-    CPy_DecRef(cpy_r_r11);
-    CPy_DecRef(cpy_r_r12);
-    goto CPyL31;
+    cpy_r_r50 = 2;
+    return cpy_r_r50;
 CPyL33: ;
-    CPy_DecRef(cpy_r_r11);
+    CPy_DecRef(cpy_r_r13);
     CPy_DecRef(cpy_r_r14);
-    goto CPyL31;
+    goto CPyL32;
 CPyL34: ;
-    CPy_DecRef(cpy_r_r19);
-    CPy_DecRef(cpy_r_r21);
-    goto CPyL10;
+    CPy_DecRef(cpy_r_r13);
+    CPy_DecRef(cpy_r_r16);
+    goto CPyL32;
 CPyL35: ;
-    CPy_DECREF(cpy_r_r27);
-    goto CPyL9;
+    CPy_DecRef(cpy_r_r21);
+    CPy_DecRef(cpy_r_r23);
+    goto CPyL11;
 CPyL36: ;
-    CPy_DecRef(cpy_r_r30);
-    CPy_DecRef(cpy_r_r31);
-    CPy_DecRef(cpy_r_r32);
-    goto CPyL16;
+    CPy_DECREF(cpy_r_r29);
+    goto CPyL10;
 CPyL37: ;
-    CPy_DecRef(cpy_r_r11);
-    CPy_DecRef(cpy_r_r14);
-    CPy_DecRef(cpy_r_r28.f0);
-    CPy_DecRef(cpy_r_r28.f1);
-    CPy_DecRef(cpy_r_r28.f2);
-    goto CPyL14;
-CPyL38: ;
-    CPy_DecRef(cpy_r_r11);
-    CPy_DecRef(cpy_r_r14);
+    CPy_DecRef(cpy_r_r32);
+    CPy_DecRef(cpy_r_r33);
+    CPy_DecRef(cpy_r_r34);
     goto CPyL17;
+CPyL38: ;
+    CPy_DecRef(cpy_r_r13);
+    CPy_DecRef(cpy_r_r16);
+    CPy_DecRef(cpy_r_r30.f0);
+    CPy_DecRef(cpy_r_r30.f1);
+    CPy_DecRef(cpy_r_r30.f2);
+    goto CPyL15;
 CPyL39: ;
-    CPy_DECREF(cpy_r_r11);
-    CPy_DECREF(cpy_r_r14);
-    goto CPyL23;
+    CPy_DecRef(cpy_r_r13);
+    CPy_DecRef(cpy_r_r16);
+    goto CPyL18;
 CPyL40: ;
-    CPy_DecRef(cpy_r_r11);
-    goto CPyL26;
+    CPy_DECREF(cpy_r_r13);
+    CPy_DECREF(cpy_r_r16);
+    goto CPyL24;
 CPyL41: ;
-    CPy_DECREF(cpy_r_r46);
-    goto CPyL22;
+    CPy_DecRef(cpy_r_r13);
+    goto CPyL27;
 CPyL42: ;
-    CPy_XDECREF(cpy_r_r41.f0);
-    CPy_XDECREF(cpy_r_r41.f1);
-    CPy_XDECREF(cpy_r_r41.f2);
-    goto CPyL25;
+    CPy_DECREF(cpy_r_r48);
+    goto CPyL23;
+CPyL43: ;
+    CPy_XDECREF(cpy_r_r43.f0);
+    CPy_XDECREF(cpy_r_r43.f1);
+    CPy_XDECREF(cpy_r_r43.f2);
+    goto CPyL26;
 }
 
 PyObject *CPyPy_Game___save_score(PyObject *self, PyObject *const *args, size_t nargs, PyObject *kwnames) {
@@ -2200,16 +2271,16 @@ PyObject *CPyPy_Game___save_score(PyObject *self, PyObject *const *args, size_t 
     else {
         arg_name = NULL;
     }
-    if (arg_name != NULL) goto __LL3;
+    if (arg_name != NULL) goto __LL4;
     if (obj_name == Py_None)
         arg_name = obj_name;
     else {
         arg_name = NULL;
     }
-    if (arg_name != NULL) goto __LL3;
+    if (arg_name != NULL) goto __LL4;
     CPy_TypeError("str or None", obj_name); 
     goto fail;
-__LL3: ;
+__LL4: ;
     CPyTagged arg_score;
     if (likely(PyLong_Check(obj_score)))
         arg_score = CPyTagged_BorrowFromObject(obj_score);
@@ -2275,7 +2346,7 @@ CPyTagged CPyDef___mypyc_lambda__0_show_leaderboard_Game_obj_____call__(PyObject
         CPy_AttributeError("main.py", "<lambda>", "__mypyc_lambda__0_show_leaderboard_Game_obj", "__mypyc_env__", 150, CPyStatic_globals);
         goto CPyL2;
     }
-    CPy_INCREF(cpy_r_r0);
+    CPy_INCREF_NO_IMM(cpy_r_r0);
     goto CPyL3;
 CPyL1: ;
     cpy_r_r1 = cpy_r_x.f1;
@@ -2285,7 +2356,7 @@ CPyL2: ;
     cpy_r_r2 = CPY_INT_TAG;
     return cpy_r_r2;
 CPyL3: ;
-    CPy_DECREF(cpy_r_r0);
+    CPy_DECREF_NO_IMM(cpy_r_r0);
     goto CPyL1;
 }
 
@@ -2299,63 +2370,63 @@ PyObject *CPyPy___mypyc_lambda__0_show_leaderboard_Game_obj_____call__(PyObject 
     }
     PyObject *arg___mypyc_self__ = obj___mypyc_self__;
     tuple_T2OI arg_x;
-    PyObject *__tmp4;
+    PyObject *__tmp5;
     if (unlikely(!(PyTuple_Check(obj_x) && PyTuple_GET_SIZE(obj_x) == 2))) {
-        __tmp4 = NULL;
-        goto __LL5;
+        __tmp5 = NULL;
+        goto __LL6;
     }
     if (PyUnicode_Check(PyTuple_GET_ITEM(obj_x, 0)))
-        __tmp4 = PyTuple_GET_ITEM(obj_x, 0);
+        __tmp5 = PyTuple_GET_ITEM(obj_x, 0);
     else {
-        __tmp4 = NULL;
+        __tmp5 = NULL;
     }
-    if (__tmp4 != NULL) goto __LL6;
+    if (__tmp5 != NULL) goto __LL7;
     if (PyTuple_GET_ITEM(obj_x, 0) == Py_None)
-        __tmp4 = PyTuple_GET_ITEM(obj_x, 0);
+        __tmp5 = PyTuple_GET_ITEM(obj_x, 0);
     else {
-        __tmp4 = NULL;
+        __tmp5 = NULL;
     }
-    if (__tmp4 != NULL) goto __LL6;
-    __tmp4 = NULL;
-__LL6: ;
-    if (__tmp4 == NULL) goto __LL5;
+    if (__tmp5 != NULL) goto __LL7;
+    __tmp5 = NULL;
+__LL7: ;
+    if (__tmp5 == NULL) goto __LL6;
     if (likely(PyLong_Check(PyTuple_GET_ITEM(obj_x, 1))))
-        __tmp4 = PyTuple_GET_ITEM(obj_x, 1);
+        __tmp5 = PyTuple_GET_ITEM(obj_x, 1);
     else {
-        __tmp4 = NULL;
+        __tmp5 = NULL;
     }
-    if (__tmp4 == NULL) goto __LL5;
-    __tmp4 = obj_x;
-__LL5: ;
-    if (unlikely(__tmp4 == NULL)) {
+    if (__tmp5 == NULL) goto __LL6;
+    __tmp5 = obj_x;
+__LL6: ;
+    if (unlikely(__tmp5 == NULL)) {
         CPy_TypeError("tuple[union[str, None], int]", obj_x); goto fail;
     } else {
-        PyObject *__tmp7 = PyTuple_GET_ITEM(obj_x, 0);
-        PyObject *__tmp8;
-        if (PyUnicode_Check(__tmp7))
-            __tmp8 = __tmp7;
+        PyObject *__tmp8 = PyTuple_GET_ITEM(obj_x, 0);
+        PyObject *__tmp9;
+        if (PyUnicode_Check(__tmp8))
+            __tmp9 = __tmp8;
         else {
-            __tmp8 = NULL;
+            __tmp9 = NULL;
         }
-        if (__tmp8 != NULL) goto __LL9;
-        if (__tmp7 == Py_None)
-            __tmp8 = __tmp7;
+        if (__tmp9 != NULL) goto __LL10;
+        if (__tmp8 == Py_None)
+            __tmp9 = __tmp8;
         else {
-            __tmp8 = NULL;
+            __tmp9 = NULL;
         }
-        if (__tmp8 != NULL) goto __LL9;
-        CPy_TypeError("str or None", __tmp7); 
-        __tmp8 = NULL;
-__LL9: ;
-        arg_x.f0 = __tmp8;
-        PyObject *__tmp10 = PyTuple_GET_ITEM(obj_x, 1);
-        CPyTagged __tmp11;
-        if (likely(PyLong_Check(__tmp10)))
-            __tmp11 = CPyTagged_BorrowFromObject(__tmp10);
+        if (__tmp9 != NULL) goto __LL10;
+        CPy_TypeError("str or None", __tmp8); 
+        __tmp9 = NULL;
+__LL10: ;
+        arg_x.f0 = __tmp9;
+        PyObject *__tmp11 = PyTuple_GET_ITEM(obj_x, 1);
+        CPyTagged __tmp12;
+        if (likely(PyLong_Check(__tmp11)))
+            __tmp12 = CPyTagged_BorrowFromObject(__tmp11);
         else {
-            CPy_TypeError("int", __tmp10); goto fail;
+            CPy_TypeError("int", __tmp11); goto fail;
         }
-        arg_x.f1 = __tmp11;
+        arg_x.f1 = __tmp12;
     }
     CPyTagged retval = CPyDef___mypyc_lambda__0_show_leaderboard_Game_obj_____call__(arg___mypyc_self__, arg_x);
     if (retval == CPY_INT_TAG) {
@@ -2383,70 +2454,74 @@ char CPyDef_Game___show_leaderboard(PyObject *cpy_r_self) {
     PyObject *cpy_r_r13;
     PyObject *cpy_r_r14;
     PyObject *cpy_r_r15;
-    PyObject **cpy_r_r17;
-    PyObject *cpy_r_r18;
+    PyObject *cpy_r_r16;
+    PyObject **cpy_r_r18;
     PyObject *cpy_r_r19;
     PyObject *cpy_r_r20;
     PyObject *cpy_r_r21;
     PyObject *cpy_r_r22;
-    char cpy_r_r23;
-    PyObject *cpy_r_r24;
-    char cpy_r_r25;
-    PyObject *cpy_r_r26;
-    char cpy_r_r27;
-    PyObject *cpy_r_r28;
+    PyObject *cpy_r_r23;
+    char cpy_r_r24;
+    PyObject *cpy_r_r25;
+    char cpy_r_r26;
+    PyObject *cpy_r_r27;
+    char cpy_r_r28;
     PyObject *cpy_r_r29;
-    int32_t cpy_r_r30;
-    char cpy_r_r31;
+    PyObject *cpy_r_r30;
+    int32_t cpy_r_r31;
     char cpy_r_r32;
-    tuple_T2OO cpy_r_r33;
-    PyObject *cpy_r_r34;
-    int32_t cpy_r_r35;
-    char cpy_r_r36;
+    char cpy_r_r33;
+    tuple_T2OO cpy_r_r34;
+    PyObject *cpy_r_r35;
+    int32_t cpy_r_r36;
     char cpy_r_r37;
-    PyObject *cpy_r_r38;
-    char cpy_r_r39;
-    PyObject *cpy_r_r40;
+    char cpy_r_r38;
+    PyObject *cpy_r_r39;
+    char cpy_r_r40;
     PyObject *cpy_r_r41;
     PyObject *cpy_r_r42;
     PyObject *cpy_r_r43;
-    PyObject **cpy_r_r45;
-    PyObject *cpy_r_r46;
+    PyObject *cpy_r_r44;
+    PyObject **cpy_r_r46;
     PyObject *cpy_r_r47;
     PyObject *cpy_r_r48;
-    CPyTagged cpy_r_r49;
-    CPyTagged cpy_r_i;
+    PyObject *cpy_r_r49;
     CPyTagged cpy_r_r50;
-    CPyPtr cpy_r_r51;
-    int64_t cpy_r_r52;
-    CPyTagged cpy_r_r53;
+    int64_t cpy_r_r51;
+    CPyPtr cpy_r_r52;
+    int64_t cpy_r_r53;
     char cpy_r_r54;
-    PyObject *cpy_r_r55;
-    tuple_T2OI cpy_r_r56;
-    PyObject *cpy_r_r57;
-    CPyTagged cpy_r_r58;
+    CPyTagged cpy_r_i;
+    CPyPtr cpy_r_r55;
+    CPyPtr cpy_r_r56;
+    int64_t cpy_r_r57;
+    CPyPtr cpy_r_r58;
     PyObject *cpy_r_r59;
-    PyObject *cpy_r_r60;
+    tuple_T2OI cpy_r_r60;
     PyObject *cpy_r_r61;
-    PyObject *cpy_r_r62;
+    CPyTagged cpy_r_r62;
     PyObject *cpy_r_r63;
     PyObject *cpy_r_r64;
     PyObject *cpy_r_r65;
-    PyObject **cpy_r_r67;
+    PyObject *cpy_r_r66;
+    PyObject *cpy_r_r67;
     PyObject *cpy_r_r68;
     PyObject *cpy_r_r69;
-    PyObject *cpy_r_r70;
-    PyObject *cpy_r_r71;
-    PyObject **cpy_r_r73;
+    PyObject **cpy_r_r71;
+    PyObject *cpy_r_r72;
+    PyObject *cpy_r_r73;
     PyObject *cpy_r_r74;
     PyObject *cpy_r_r75;
-    CPyTagged cpy_r_r76;
-    CPyTagged cpy_r_r77;
-    char cpy_r_r78;
+    PyObject **cpy_r_r77;
+    PyObject *cpy_r_r78;
+    PyObject *cpy_r_r79;
+    CPyTagged cpy_r_r80;
+    int64_t cpy_r_r81;
+    char cpy_r_r82;
     cpy_r_r0 = CPyDef_show_leaderboard_Game_env();
     if (unlikely(cpy_r_r0 == NULL)) {
         CPy_AddTraceback("main.py", "show_leaderboard", 139, CPyStatic_globals);
-        goto CPyL40;
+        goto CPyL41;
     }
     cpy_r_r1 = ((main___GameObject *)cpy_r_self)->_master;
     CPy_INCREF(cpy_r_r1);
@@ -2455,15 +2530,15 @@ char CPyDef_Game___show_leaderboard(PyObject *cpy_r_self) {
     cpy_r_r4 = CPyDict_GetItem(cpy_r_r2, cpy_r_r3);
     if (unlikely(cpy_r_r4 == NULL)) {
         CPy_AddTraceback("main.py", "show_leaderboard", 146, CPyStatic_globals);
-        goto CPyL41;
+        goto CPyL42;
     }
     PyObject *cpy_r_r5[1] = {cpy_r_r1};
     cpy_r_r6 = (PyObject **)&cpy_r_r5;
-    cpy_r_r7 = _PyObject_Vectorcall(cpy_r_r4, cpy_r_r6, 1, 0);
+    cpy_r_r7 = PyObject_Vectorcall(cpy_r_r4, cpy_r_r6, 1, 0);
     CPy_DECREF(cpy_r_r4);
     if (unlikely(cpy_r_r7 == NULL)) {
         CPy_AddTraceback("main.py", "show_leaderboard", 146, CPyStatic_globals);
-        goto CPyL41;
+        goto CPyL42;
     }
     CPy_DECREF(cpy_r_r1);
     cpy_r_r8 = CPyStatics[36]; /* 'Leaderboard' */
@@ -2473,415 +2548,418 @@ char CPyDef_Game___show_leaderboard(PyObject *cpy_r_self) {
     cpy_r_r12 = PyObject_VectorcallMethod(cpy_r_r9, cpy_r_r11, 9223372036854775810ULL, 0);
     if (unlikely(cpy_r_r12 == NULL)) {
         CPy_AddTraceback("main.py", "show_leaderboard", 147, CPyStatic_globals);
-        goto CPyL42;
-    } else
         goto CPyL43;
+    } else
+        goto CPyL44;
 CPyL4: ;
     cpy_r_r13 = PyList_New(0);
     if (unlikely(cpy_r_r13 == NULL)) {
         CPy_AddTraceback("main.py", "show_leaderboard", 149, CPyStatic_globals);
-        goto CPyL42;
+        goto CPyL43;
     }
     cpy_r_r14 = ((main___GameObject *)cpy_r_self)->_scores;
     CPy_INCREF(cpy_r_r14);
-    cpy_r_r15 = CPyStatics[38]; /* 'items' */
-    PyObject *cpy_r_r16[1] = {cpy_r_r14};
-    cpy_r_r17 = (PyObject **)&cpy_r_r16;
-    cpy_r_r18 = PyObject_VectorcallMethod(cpy_r_r15, cpy_r_r17, 9223372036854775809ULL, 0);
-    if (unlikely(cpy_r_r18 == NULL)) {
-        CPy_AddTraceback("main.py", "show_leaderboard", 149, CPyStatic_globals);
-        goto CPyL44;
-    }
-    CPy_DECREF(cpy_r_r14);
-    cpy_r_r19 = PyObject_GetIter(cpy_r_r18);
-    CPy_DECREF(cpy_r_r18);
+    cpy_r_r15 = cpy_r_r14;
+    cpy_r_r16 = CPyStatics[38]; /* 'items' */
+    PyObject *cpy_r_r17[1] = {cpy_r_r15};
+    cpy_r_r18 = (PyObject **)&cpy_r_r17;
+    cpy_r_r19 = PyObject_VectorcallMethod(cpy_r_r16, cpy_r_r18, 9223372036854775809ULL, 0);
     if (unlikely(cpy_r_r19 == NULL)) {
         CPy_AddTraceback("main.py", "show_leaderboard", 149, CPyStatic_globals);
         goto CPyL45;
     }
-CPyL7: ;
-    cpy_r_r20 = PyIter_Next(cpy_r_r19);
-    if (cpy_r_r20 == NULL) goto CPyL46;
-    cpy_r_r21 = PyObject_GetIter(cpy_r_r20);
-    CPy_DECREF(cpy_r_r20);
-    if (unlikely(cpy_r_r21 == NULL)) {
+    CPy_DECREF(cpy_r_r15);
+    cpy_r_r20 = PyObject_GetIter(cpy_r_r19);
+    CPy_DECREF(cpy_r_r19);
+    if (unlikely(cpy_r_r20 == NULL)) {
         CPy_AddTraceback("main.py", "show_leaderboard", 149, CPyStatic_globals);
-        goto CPyL47;
+        goto CPyL46;
     }
-    cpy_r_r22 = PyIter_Next(cpy_r_r21);
-    if (cpy_r_r22 == NULL) {
+CPyL8: ;
+    cpy_r_r21 = PyIter_Next(cpy_r_r20);
+    if (cpy_r_r21 == NULL) goto CPyL47;
+    cpy_r_r22 = PyObject_GetIter(cpy_r_r21);
+    CPy_DECREF(cpy_r_r21);
+    if (unlikely(cpy_r_r22 == NULL)) {
+        CPy_AddTraceback("main.py", "show_leaderboard", 149, CPyStatic_globals);
         goto CPyL48;
-    } else
-        goto CPyL12;
-CPyL10: ;
-    PyErr_SetString(PyExc_ValueError, "not enough values to unpack");
-    cpy_r_r23 = 0;
-    if (unlikely(!cpy_r_r23)) {
-        CPy_AddTraceback("main.py", "show_leaderboard", 149, CPyStatic_globals);
-        goto CPyL40;
     }
-    CPy_Unreachable();
-CPyL12: ;
-    cpy_r_r24 = PyIter_Next(cpy_r_r21);
-    if (cpy_r_r24 == NULL) {
+    cpy_r_r23 = PyIter_Next(cpy_r_r22);
+    if (cpy_r_r23 == NULL) {
         goto CPyL49;
     } else
-        goto CPyL15;
-CPyL13: ;
+        goto CPyL13;
+CPyL11: ;
     PyErr_SetString(PyExc_ValueError, "not enough values to unpack");
-    cpy_r_r25 = 0;
-    if (unlikely(!cpy_r_r25)) {
+    cpy_r_r24 = 0;
+    if (unlikely(!cpy_r_r24)) {
         CPy_AddTraceback("main.py", "show_leaderboard", 149, CPyStatic_globals);
-        goto CPyL40;
+        goto CPyL41;
     }
     CPy_Unreachable();
-CPyL15: ;
-    cpy_r_r26 = PyIter_Next(cpy_r_r21);
-    CPy_DECREF(cpy_r_r21);
-    if (cpy_r_r26 == NULL) {
-        goto CPyL18;
-    } else
+CPyL13: ;
+    cpy_r_r25 = PyIter_Next(cpy_r_r22);
+    if (cpy_r_r25 == NULL) {
         goto CPyL50;
-CPyL16: ;
-    PyErr_SetString(PyExc_ValueError, "too many values to unpack");
-    cpy_r_r27 = 0;
-    if (unlikely(!cpy_r_r27)) {
+    } else
+        goto CPyL16;
+CPyL14: ;
+    PyErr_SetString(PyExc_ValueError, "not enough values to unpack");
+    cpy_r_r26 = 0;
+    if (unlikely(!cpy_r_r26)) {
         CPy_AddTraceback("main.py", "show_leaderboard", 149, CPyStatic_globals);
-        goto CPyL40;
+        goto CPyL41;
     }
     CPy_Unreachable();
-CPyL18: ;
-    cpy_r_r28 = CPyStatics[72]; /* 0 */
-    cpy_r_r29 = PyObject_RichCompare(cpy_r_r24, cpy_r_r28, 4);
-    if (unlikely(cpy_r_r29 == NULL)) {
-        CPy_AddTraceback("main.py", "show_leaderboard", 149, CPyStatic_globals);
-        goto CPyL51;
-    }
-    cpy_r_r30 = PyObject_IsTrue(cpy_r_r29);
-    CPy_DECREF(cpy_r_r29);
-    cpy_r_r31 = cpy_r_r30 >= 0;
-    if (unlikely(!cpy_r_r31)) {
-        CPy_AddTraceback("main.py", "show_leaderboard", 149, CPyStatic_globals);
-        goto CPyL51;
-    }
-    cpy_r_r32 = cpy_r_r30;
-    if (!cpy_r_r32) goto CPyL52;
-    cpy_r_r33.f0 = cpy_r_r22;
-    cpy_r_r33.f1 = cpy_r_r24;
-    cpy_r_r34 = PyTuple_New(2);
-    if (unlikely(cpy_r_r34 == NULL))
-        CPyError_OutOfMemory();
-    PyObject *__tmp12 = cpy_r_r33.f0;
-    PyTuple_SET_ITEM(cpy_r_r34, 0, __tmp12);
-    PyObject *__tmp13 = cpy_r_r33.f1;
-    PyTuple_SET_ITEM(cpy_r_r34, 1, __tmp13);
-    cpy_r_r35 = PyList_Append(cpy_r_r13, cpy_r_r34);
-    CPy_DECREF(cpy_r_r34);
-    cpy_r_r36 = cpy_r_r35 >= 0;
-    if (unlikely(!cpy_r_r36)) {
-        CPy_AddTraceback("main.py", "show_leaderboard", 149, CPyStatic_globals);
-        goto CPyL47;
+CPyL16: ;
+    cpy_r_r27 = PyIter_Next(cpy_r_r22);
+    CPy_DECREF(cpy_r_r22);
+    if (cpy_r_r27 == NULL) {
+        goto CPyL19;
     } else
-        goto CPyL7;
-CPyL22: ;
-    cpy_r_r37 = CPy_NoErrOccured();
+        goto CPyL51;
+CPyL17: ;
+    PyErr_SetString(PyExc_ValueError, "too many values to unpack");
+    cpy_r_r28 = 0;
+    if (unlikely(!cpy_r_r28)) {
+        CPy_AddTraceback("main.py", "show_leaderboard", 149, CPyStatic_globals);
+        goto CPyL41;
+    }
+    CPy_Unreachable();
+CPyL19: ;
+    cpy_r_r29 = CPyStatics[72]; /* 0 */
+    cpy_r_r30 = PyObject_RichCompare(cpy_r_r25, cpy_r_r29, 4);
+    if (unlikely(cpy_r_r30 == NULL)) {
+        CPy_AddTraceback("main.py", "show_leaderboard", 149, CPyStatic_globals);
+        goto CPyL52;
+    }
+    cpy_r_r31 = PyObject_IsTrue(cpy_r_r30);
+    CPy_DECREF(cpy_r_r30);
+    cpy_r_r32 = cpy_r_r31 >= 0;
+    if (unlikely(!cpy_r_r32)) {
+        CPy_AddTraceback("main.py", "show_leaderboard", 149, CPyStatic_globals);
+        goto CPyL52;
+    }
+    cpy_r_r33 = cpy_r_r31;
+    if (!cpy_r_r33) goto CPyL53;
+    cpy_r_r34.f0 = cpy_r_r23;
+    cpy_r_r34.f1 = cpy_r_r25;
+    cpy_r_r35 = PyTuple_New(2);
+    if (unlikely(cpy_r_r35 == NULL))
+        CPyError_OutOfMemory();
+    PyObject *__tmp13 = cpy_r_r34.f0;
+    PyTuple_SET_ITEM(cpy_r_r35, 0, __tmp13);
+    PyObject *__tmp14 = cpy_r_r34.f1;
+    PyTuple_SET_ITEM(cpy_r_r35, 1, __tmp14);
+    cpy_r_r36 = PyList_Append(cpy_r_r13, cpy_r_r35);
+    CPy_DECREF(cpy_r_r35);
+    cpy_r_r37 = cpy_r_r36 >= 0;
     if (unlikely(!cpy_r_r37)) {
         CPy_AddTraceback("main.py", "show_leaderboard", 149, CPyStatic_globals);
-        goto CPyL45;
+        goto CPyL48;
+    } else
+        goto CPyL8;
+CPyL23: ;
+    cpy_r_r38 = CPy_NoErrOccurred();
+    if (unlikely(!cpy_r_r38)) {
+        CPy_AddTraceback("main.py", "show_leaderboard", 149, CPyStatic_globals);
+        goto CPyL46;
     }
-    cpy_r_r38 = CPyDef___mypyc_lambda__0_show_leaderboard_Game_obj();
-    if (unlikely(cpy_r_r38 == NULL)) {
+    cpy_r_r39 = CPyDef___mypyc_lambda__0_show_leaderboard_Game_obj();
+    if (unlikely(cpy_r_r39 == NULL)) {
         CPy_AddTraceback("main.py", "show_leaderboard", 150, CPyStatic_globals);
-        goto CPyL45;
+        goto CPyL46;
     }
-    if (((main_____mypyc_lambda__0_show_leaderboard_Game_objObject *)cpy_r_r38)->___mypyc_env__ != NULL) {
-        CPy_DECREF(((main_____mypyc_lambda__0_show_leaderboard_Game_objObject *)cpy_r_r38)->___mypyc_env__);
+    if (((main_____mypyc_lambda__0_show_leaderboard_Game_objObject *)cpy_r_r39)->___mypyc_env__ != NULL) {
+        CPy_DECREF_NO_IMM(((main_____mypyc_lambda__0_show_leaderboard_Game_objObject *)cpy_r_r39)->___mypyc_env__);
     }
-    ((main_____mypyc_lambda__0_show_leaderboard_Game_objObject *)cpy_r_r38)->___mypyc_env__ = cpy_r_r0;
-    cpy_r_r39 = 1;
-    if (unlikely(!cpy_r_r39)) {
+    ((main_____mypyc_lambda__0_show_leaderboard_Game_objObject *)cpy_r_r39)->___mypyc_env__ = cpy_r_r0;
+    cpy_r_r40 = 1;
+    if (unlikely(!cpy_r_r40)) {
         CPy_AddTraceback("main.py", "show_leaderboard", 150, CPyStatic_globals);
-        goto CPyL53;
-    }
-    cpy_r_r40 = CPyModule_builtins;
-    cpy_r_r41 = CPyStatics[39]; /* 'sorted' */
-    cpy_r_r42 = CPyObject_GetAttr(cpy_r_r40, cpy_r_r41);
-    if (unlikely(cpy_r_r42 == NULL)) {
-        CPy_AddTraceback("main.py", "show_leaderboard", 148, CPyStatic_globals);
-        goto CPyL53;
-    }
-    cpy_r_r43 = 1 ? Py_True : Py_False;
-    PyObject *cpy_r_r44[3] = {cpy_r_r13, cpy_r_r38, cpy_r_r43};
-    cpy_r_r45 = (PyObject **)&cpy_r_r44;
-    cpy_r_r46 = CPyStatics[74]; /* ('key', 'reverse') */
-    cpy_r_r47 = _PyObject_Vectorcall(cpy_r_r42, cpy_r_r45, 1, cpy_r_r46);
-    CPy_DECREF(cpy_r_r42);
-    if (unlikely(cpy_r_r47 == NULL)) {
-        CPy_AddTraceback("main.py", "show_leaderboard", 148, CPyStatic_globals);
-        goto CPyL53;
-    }
-    CPy_DECREF(cpy_r_r13);
-    CPy_DECREF(cpy_r_r38);
-    if (likely(PyList_Check(cpy_r_r47)))
-        cpy_r_r48 = cpy_r_r47;
-    else {
-        CPy_TypeErrorTraceback("main.py", "show_leaderboard", 148, CPyStatic_globals, "list", cpy_r_r47);
         goto CPyL54;
     }
-    cpy_r_r49 = 0;
-    cpy_r_i = 0;
+    cpy_r_r41 = CPyModule_builtins;
+    cpy_r_r42 = CPyStatics[39]; /* 'sorted' */
+    cpy_r_r43 = CPyObject_GetAttr(cpy_r_r41, cpy_r_r42);
+    if (unlikely(cpy_r_r43 == NULL)) {
+        CPy_AddTraceback("main.py", "show_leaderboard", 148, CPyStatic_globals);
+        goto CPyL54;
+    }
+    cpy_r_r44 = 1 ? Py_True : Py_False;
+    PyObject *cpy_r_r45[3] = {cpy_r_r13, cpy_r_r39, cpy_r_r44};
+    cpy_r_r46 = (PyObject **)&cpy_r_r45;
+    cpy_r_r47 = CPyStatics[74]; /* ('key', 'reverse') */
+    cpy_r_r48 = PyObject_Vectorcall(cpy_r_r43, cpy_r_r46, 1, cpy_r_r47);
+    CPy_DECREF(cpy_r_r43);
+    if (unlikely(cpy_r_r48 == NULL)) {
+        CPy_AddTraceback("main.py", "show_leaderboard", 148, CPyStatic_globals);
+        goto CPyL54;
+    }
+    CPy_DECREF_NO_IMM(cpy_r_r13);
+    CPy_DECREF_NO_IMM(cpy_r_r39);
+    if (likely(PyList_Check(cpy_r_r48)))
+        cpy_r_r49 = cpy_r_r48;
+    else {
+        CPy_TypeErrorTraceback("main.py", "show_leaderboard", 148, CPyStatic_globals, "list", cpy_r_r48);
+        goto CPyL55;
+    }
     cpy_r_r50 = 0;
-CPyL29: ;
-    cpy_r_r51 = (CPyPtr)&((PyVarObject *)cpy_r_r48)->ob_size;
-    cpy_r_r52 = *(int64_t *)cpy_r_r51;
-    cpy_r_r53 = cpy_r_r52 << 1;
-    cpy_r_r54 = (Py_ssize_t)cpy_r_r50 < (Py_ssize_t)cpy_r_r53;
-    if (!cpy_r_r54) goto CPyL55;
-    cpy_r_r55 = CPyList_GetItemUnsafe(cpy_r_r48, cpy_r_r50);
-    PyObject *__tmp14;
-    if (unlikely(!(PyTuple_Check(cpy_r_r55) && PyTuple_GET_SIZE(cpy_r_r55) == 2))) {
-        __tmp14 = NULL;
-        goto __LL15;
+    cpy_r_r51 = 0;
+CPyL30: ;
+    cpy_r_r52 = (CPyPtr)&((PyVarObject *)cpy_r_r49)->ob_size;
+    cpy_r_r53 = *(int64_t *)cpy_r_r52;
+    cpy_r_r54 = cpy_r_r51 < cpy_r_r53;
+    if (!cpy_r_r54) goto CPyL56;
+    cpy_r_i = cpy_r_r50;
+    cpy_r_r55 = (CPyPtr)&((PyListObject *)cpy_r_r49)->ob_item;
+    cpy_r_r56 = *(CPyPtr *)cpy_r_r55;
+    cpy_r_r57 = cpy_r_r51 * 8;
+    cpy_r_r58 = cpy_r_r56 + cpy_r_r57;
+    cpy_r_r59 = *(PyObject * *)cpy_r_r58;
+    CPy_INCREF(cpy_r_r59);
+    PyObject *__tmp15;
+    if (unlikely(!(PyTuple_Check(cpy_r_r59) && PyTuple_GET_SIZE(cpy_r_r59) == 2))) {
+        __tmp15 = NULL;
+        goto __LL16;
     }
-    if (PyUnicode_Check(PyTuple_GET_ITEM(cpy_r_r55, 0)))
-        __tmp14 = PyTuple_GET_ITEM(cpy_r_r55, 0);
+    if (PyUnicode_Check(PyTuple_GET_ITEM(cpy_r_r59, 0)))
+        __tmp15 = PyTuple_GET_ITEM(cpy_r_r59, 0);
     else {
-        __tmp14 = NULL;
+        __tmp15 = NULL;
     }
-    if (__tmp14 != NULL) goto __LL16;
-    if (PyTuple_GET_ITEM(cpy_r_r55, 0) == Py_None)
-        __tmp14 = PyTuple_GET_ITEM(cpy_r_r55, 0);
+    if (__tmp15 != NULL) goto __LL17;
+    if (PyTuple_GET_ITEM(cpy_r_r59, 0) == Py_None)
+        __tmp15 = PyTuple_GET_ITEM(cpy_r_r59, 0);
     else {
-        __tmp14 = NULL;
+        __tmp15 = NULL;
     }
-    if (__tmp14 != NULL) goto __LL16;
-    __tmp14 = NULL;
+    if (__tmp15 != NULL) goto __LL17;
+    __tmp15 = NULL;
+__LL17: ;
+    if (__tmp15 == NULL) goto __LL16;
+    if (likely(PyLong_Check(PyTuple_GET_ITEM(cpy_r_r59, 1))))
+        __tmp15 = PyTuple_GET_ITEM(cpy_r_r59, 1);
+    else {
+        __tmp15 = NULL;
+    }
+    if (__tmp15 == NULL) goto __LL16;
+    __tmp15 = cpy_r_r59;
 __LL16: ;
-    if (__tmp14 == NULL) goto __LL15;
-    if (likely(PyLong_Check(PyTuple_GET_ITEM(cpy_r_r55, 1))))
-        __tmp14 = PyTuple_GET_ITEM(cpy_r_r55, 1);
-    else {
-        __tmp14 = NULL;
-    }
-    if (__tmp14 == NULL) goto __LL15;
-    __tmp14 = cpy_r_r55;
-__LL15: ;
-    if (unlikely(__tmp14 == NULL)) {
-        CPy_TypeError("tuple[union[str, None], int]", cpy_r_r55); cpy_r_r56 = (tuple_T2OI) { NULL, CPY_INT_TAG };
+    if (unlikely(__tmp15 == NULL)) {
+        CPy_TypeError("tuple[union[str, None], int]", cpy_r_r59); cpy_r_r60 = (tuple_T2OI) { NULL, CPY_INT_TAG };
     } else {
-        PyObject *__tmp17 = PyTuple_GET_ITEM(cpy_r_r55, 0);
-        CPy_INCREF(__tmp17);
-        PyObject *__tmp18;
-        if (PyUnicode_Check(__tmp17))
-            __tmp18 = __tmp17;
+        PyObject *__tmp18 = PyTuple_GET_ITEM(cpy_r_r59, 0);
+        CPy_INCREF(__tmp18);
+        PyObject *__tmp19;
+        if (PyUnicode_Check(__tmp18))
+            __tmp19 = __tmp18;
         else {
-            __tmp18 = NULL;
+            __tmp19 = NULL;
         }
-        if (__tmp18 != NULL) goto __LL19;
-        if (__tmp17 == Py_None)
-            __tmp18 = __tmp17;
+        if (__tmp19 != NULL) goto __LL20;
+        if (__tmp18 == Py_None)
+            __tmp19 = __tmp18;
         else {
-            __tmp18 = NULL;
+            __tmp19 = NULL;
         }
-        if (__tmp18 != NULL) goto __LL19;
-        CPy_TypeError("str or None", __tmp17); 
-        __tmp18 = NULL;
-__LL19: ;
-        cpy_r_r56.f0 = __tmp18;
-        PyObject *__tmp20 = PyTuple_GET_ITEM(cpy_r_r55, 1);
-        CPyTagged __tmp21;
-        if (likely(PyLong_Check(__tmp20)))
-            __tmp21 = CPyTagged_FromObject(__tmp20);
+        if (__tmp19 != NULL) goto __LL20;
+        CPy_TypeError("str or None", __tmp18); 
+        __tmp19 = NULL;
+__LL20: ;
+        cpy_r_r60.f0 = __tmp19;
+        PyObject *__tmp21 = PyTuple_GET_ITEM(cpy_r_r59, 1);
+        CPyTagged __tmp22;
+        if (likely(PyLong_Check(__tmp21)))
+            __tmp22 = CPyTagged_FromObject(__tmp21);
         else {
-            CPy_TypeError("int", __tmp20); __tmp21 = CPY_INT_TAG;
+            CPy_TypeError("int", __tmp21); __tmp22 = CPY_INT_TAG;
         }
-        cpy_r_r56.f1 = __tmp21;
+        cpy_r_r60.f1 = __tmp22;
     }
-    CPy_DECREF(cpy_r_r55);
-    if (unlikely(cpy_r_r56.f0 == NULL)) {
+    CPy_DECREF(cpy_r_r59);
+    if (unlikely(cpy_r_r60.f0 == NULL)) {
         CPy_AddTraceback("main.py", "show_leaderboard", 153, CPyStatic_globals);
-        goto CPyL56;
-    }
-    cpy_r_r57 = cpy_r_r56.f0;
-    CPy_INCREF(cpy_r_r57);
-    cpy_r_r58 = cpy_r_r56.f1;
-    CPyTagged_INCREF(cpy_r_r58);
-    CPy_DECREF(cpy_r_r56.f0);
-    CPyTagged_DECREF(cpy_r_r56.f1);
-    cpy_r_r59 = PyObject_Str(cpy_r_r57);
-    CPy_DECREF(cpy_r_r57);
-    if (unlikely(cpy_r_r59 == NULL)) {
-        CPy_AddTraceback("main.py", "show_leaderboard", 154, CPyStatic_globals);
         goto CPyL57;
     }
-    cpy_r_r60 = CPyStatics[42]; /* ': ' */
-    cpy_r_r61 = CPyTagged_Str(cpy_r_r58);
-    CPyTagged_DECREF(cpy_r_r58);
-    if (unlikely(cpy_r_r61 == NULL)) {
+    cpy_r_r61 = cpy_r_r60.f0;
+    CPy_INCREF(cpy_r_r61);
+    cpy_r_r62 = cpy_r_r60.f1;
+    CPyTagged_INCREF(cpy_r_r62);
+    CPy_DECREF(cpy_r_r60.f0);
+    CPyTagged_DECREF(cpy_r_r60.f1);
+    cpy_r_r63 = PyObject_Str(cpy_r_r61);
+    CPy_DECREF(cpy_r_r61);
+    if (unlikely(cpy_r_r63 == NULL)) {
         CPy_AddTraceback("main.py", "show_leaderboard", 154, CPyStatic_globals);
         goto CPyL58;
     }
-    cpy_r_r62 = CPyStr_Build(3, cpy_r_r59, cpy_r_r60, cpy_r_r61);
-    CPy_DECREF(cpy_r_r59);
-    CPy_DECREF(cpy_r_r61);
-    if (unlikely(cpy_r_r62 == NULL)) {
-        CPy_AddTraceback("main.py", "show_leaderboard", 154, CPyStatic_globals);
-        goto CPyL56;
-    }
-    cpy_r_r63 = CPyStatic_globals;
-    cpy_r_r64 = CPyStatics[15]; /* 'Label' */
-    cpy_r_r65 = CPyDict_GetItem(cpy_r_r63, cpy_r_r64);
+    cpy_r_r64 = CPyStatics[42]; /* ': ' */
+    cpy_r_r65 = CPyTagged_Str(cpy_r_r62);
+    CPyTagged_DECREF(cpy_r_r62);
     if (unlikely(cpy_r_r65 == NULL)) {
         CPy_AddTraceback("main.py", "show_leaderboard", 154, CPyStatic_globals);
         goto CPyL59;
     }
-    PyObject *cpy_r_r66[2] = {cpy_r_r7, cpy_r_r62};
-    cpy_r_r67 = (PyObject **)&cpy_r_r66;
-    cpy_r_r68 = CPyStatics[73]; /* ('text',) */
-    cpy_r_r69 = _PyObject_Vectorcall(cpy_r_r65, cpy_r_r67, 1, cpy_r_r68);
+    cpy_r_r66 = CPyStr_Build(3, cpy_r_r63, cpy_r_r64, cpy_r_r65);
+    CPy_DECREF(cpy_r_r63);
     CPy_DECREF(cpy_r_r65);
+    if (unlikely(cpy_r_r66 == NULL)) {
+        CPy_AddTraceback("main.py", "show_leaderboard", 154, CPyStatic_globals);
+        goto CPyL57;
+    }
+    cpy_r_r67 = CPyStatic_globals;
+    cpy_r_r68 = CPyStatics[15]; /* 'Label' */
+    cpy_r_r69 = CPyDict_GetItem(cpy_r_r67, cpy_r_r68);
     if (unlikely(cpy_r_r69 == NULL)) {
         CPy_AddTraceback("main.py", "show_leaderboard", 154, CPyStatic_globals);
-        goto CPyL59;
+        goto CPyL60;
     }
-    CPy_DECREF(cpy_r_r62);
-    cpy_r_r70 = CPyStatics[43]; /* 'grid' */
-    cpy_r_r71 = CPyTagged_StealAsObject(cpy_r_i);
-    PyObject *cpy_r_r72[2] = {cpy_r_r69, cpy_r_r71};
-    cpy_r_r73 = (PyObject **)&cpy_r_r72;
-    cpy_r_r74 = CPyStatics[75]; /* ('row',) */
-    cpy_r_r75 = PyObject_VectorcallMethod(cpy_r_r70, cpy_r_r73, 9223372036854775809ULL, cpy_r_r74);
-    if (unlikely(cpy_r_r75 == NULL)) {
+    PyObject *cpy_r_r70[2] = {cpy_r_r7, cpy_r_r66};
+    cpy_r_r71 = (PyObject **)&cpy_r_r70;
+    cpy_r_r72 = CPyStatics[73]; /* ('text',) */
+    cpy_r_r73 = PyObject_Vectorcall(cpy_r_r69, cpy_r_r71, 1, cpy_r_r72);
+    CPy_DECREF(cpy_r_r69);
+    if (unlikely(cpy_r_r73 == NULL)) {
         CPy_AddTraceback("main.py", "show_leaderboard", 154, CPyStatic_globals);
         goto CPyL60;
-    } else
+    }
+    CPy_DECREF(cpy_r_r66);
+    cpy_r_r74 = CPyStatics[43]; /* 'grid' */
+    cpy_r_r75 = CPyTagged_StealAsObject(cpy_r_i);
+    PyObject *cpy_r_r76[2] = {cpy_r_r73, cpy_r_r75};
+    cpy_r_r77 = (PyObject **)&cpy_r_r76;
+    cpy_r_r78 = CPyStatics[75]; /* ('row',) */
+    cpy_r_r79 = PyObject_VectorcallMethod(cpy_r_r74, cpy_r_r77, 9223372036854775809ULL, cpy_r_r78);
+    if (unlikely(cpy_r_r79 == NULL)) {
+        CPy_AddTraceback("main.py", "show_leaderboard", 154, CPyStatic_globals);
         goto CPyL61;
-CPyL37: ;
-    CPy_DECREF(cpy_r_r69);
-    CPy_DECREF(cpy_r_r71);
-    cpy_r_r76 = cpy_r_r49 + 2;
-    cpy_r_r49 = cpy_r_r76;
-    cpy_r_i = cpy_r_r76;
-    cpy_r_r77 = cpy_r_r50 + 2;
-    cpy_r_r50 = cpy_r_r77;
-    goto CPyL29;
-CPyL39: ;
-    return 1;
+    } else
+        goto CPyL62;
+CPyL38: ;
+    CPy_DECREF(cpy_r_r73);
+    CPy_DECREF(cpy_r_r75);
+    cpy_r_r80 = cpy_r_r50 + 2;
+    cpy_r_r50 = cpy_r_r80;
+    cpy_r_r81 = cpy_r_r51 + 1;
+    cpy_r_r51 = cpy_r_r81;
+    goto CPyL30;
 CPyL40: ;
-    cpy_r_r78 = 2;
-    return cpy_r_r78;
+    return 1;
 CPyL41: ;
-    CPy_DecRef(cpy_r_r0);
-    CPy_DecRef(cpy_r_r1);
-    goto CPyL40;
+    cpy_r_r82 = 2;
+    return cpy_r_r82;
 CPyL42: ;
     CPy_DecRef(cpy_r_r0);
-    CPy_DecRef(cpy_r_r7);
-    goto CPyL40;
+    CPy_DecRef(cpy_r_r1);
+    goto CPyL41;
 CPyL43: ;
-    CPy_DECREF(cpy_r_r12);
-    goto CPyL4;
-CPyL44: ;
     CPy_DecRef(cpy_r_r0);
     CPy_DecRef(cpy_r_r7);
-    CPy_DecRef(cpy_r_r13);
-    CPy_DecRef(cpy_r_r14);
-    goto CPyL40;
+    goto CPyL41;
+CPyL44: ;
+    CPy_DECREF(cpy_r_r12);
+    goto CPyL4;
 CPyL45: ;
     CPy_DecRef(cpy_r_r0);
     CPy_DecRef(cpy_r_r7);
     CPy_DecRef(cpy_r_r13);
-    goto CPyL40;
+    CPy_DecRef(cpy_r_r15);
+    goto CPyL41;
 CPyL46: ;
-    CPy_DECREF(cpy_r_r19);
-    goto CPyL22;
+    CPy_DecRef(cpy_r_r0);
+    CPy_DecRef(cpy_r_r7);
+    CPy_DecRef(cpy_r_r13);
+    goto CPyL41;
 CPyL47: ;
-    CPy_DecRef(cpy_r_r0);
-    CPy_DecRef(cpy_r_r7);
-    CPy_DecRef(cpy_r_r13);
-    CPy_DecRef(cpy_r_r19);
-    goto CPyL40;
+    CPy_DECREF(cpy_r_r20);
+    goto CPyL23;
 CPyL48: ;
-    CPy_DECREF(cpy_r_r0);
-    CPy_DECREF(cpy_r_r7);
-    CPy_DECREF(cpy_r_r13);
-    CPy_DECREF(cpy_r_r19);
-    CPy_DECREF(cpy_r_r21);
-    goto CPyL10;
-CPyL49: ;
-    CPy_DECREF(cpy_r_r0);
-    CPy_DECREF(cpy_r_r7);
-    CPy_DECREF(cpy_r_r13);
-    CPy_DECREF(cpy_r_r19);
-    CPy_DECREF(cpy_r_r21);
-    CPy_DECREF(cpy_r_r22);
-    goto CPyL13;
-CPyL50: ;
-    CPy_DECREF(cpy_r_r0);
-    CPy_DECREF(cpy_r_r7);
-    CPy_DECREF(cpy_r_r13);
-    CPy_DECREF(cpy_r_r19);
-    CPy_DECREF(cpy_r_r22);
-    CPy_DECREF(cpy_r_r24);
-    CPy_DECREF(cpy_r_r26);
-    goto CPyL16;
-CPyL51: ;
     CPy_DecRef(cpy_r_r0);
     CPy_DecRef(cpy_r_r7);
     CPy_DecRef(cpy_r_r13);
-    CPy_DecRef(cpy_r_r19);
-    CPy_DecRef(cpy_r_r22);
-    CPy_DecRef(cpy_r_r24);
-    goto CPyL40;
-CPyL52: ;
+    CPy_DecRef(cpy_r_r20);
+    goto CPyL41;
+CPyL49: ;
+    CPy_DECREF_NO_IMM(cpy_r_r0);
+    CPy_DECREF(cpy_r_r7);
+    CPy_DECREF_NO_IMM(cpy_r_r13);
+    CPy_DECREF(cpy_r_r20);
     CPy_DECREF(cpy_r_r22);
-    CPy_DECREF(cpy_r_r24);
-    goto CPyL7;
-CPyL53: ;
+    goto CPyL11;
+CPyL50: ;
+    CPy_DECREF_NO_IMM(cpy_r_r0);
+    CPy_DECREF(cpy_r_r7);
+    CPy_DECREF_NO_IMM(cpy_r_r13);
+    CPy_DECREF(cpy_r_r20);
+    CPy_DECREF(cpy_r_r22);
+    CPy_DECREF(cpy_r_r23);
+    goto CPyL14;
+CPyL51: ;
+    CPy_DECREF_NO_IMM(cpy_r_r0);
+    CPy_DECREF(cpy_r_r7);
+    CPy_DECREF_NO_IMM(cpy_r_r13);
+    CPy_DECREF(cpy_r_r20);
+    CPy_DECREF(cpy_r_r23);
+    CPy_DECREF(cpy_r_r25);
+    CPy_DECREF(cpy_r_r27);
+    goto CPyL17;
+CPyL52: ;
+    CPy_DecRef(cpy_r_r0);
     CPy_DecRef(cpy_r_r7);
     CPy_DecRef(cpy_r_r13);
-    CPy_DecRef(cpy_r_r38);
-    goto CPyL40;
+    CPy_DecRef(cpy_r_r20);
+    CPy_DecRef(cpy_r_r23);
+    CPy_DecRef(cpy_r_r25);
+    goto CPyL41;
+CPyL53: ;
+    CPy_DECREF(cpy_r_r23);
+    CPy_DECREF(cpy_r_r25);
+    goto CPyL8;
 CPyL54: ;
     CPy_DecRef(cpy_r_r7);
-    goto CPyL40;
+    CPy_DecRef(cpy_r_r13);
+    CPy_DecRef(cpy_r_r39);
+    goto CPyL41;
 CPyL55: ;
-    CPy_DECREF(cpy_r_r7);
-    CPy_DECREF(cpy_r_r48);
-    CPyTagged_DECREF(cpy_r_i);
-    goto CPyL39;
-CPyL56: ;
     CPy_DecRef(cpy_r_r7);
-    CPy_DecRef(cpy_r_r48);
-    CPyTagged_DecRef(cpy_r_i);
+    goto CPyL41;
+CPyL56: ;
+    CPy_DECREF(cpy_r_r7);
+    CPy_DECREF_NO_IMM(cpy_r_r49);
     goto CPyL40;
 CPyL57: ;
     CPy_DecRef(cpy_r_r7);
-    CPy_DecRef(cpy_r_r48);
+    CPy_DecRef(cpy_r_r49);
     CPyTagged_DecRef(cpy_r_i);
-    CPyTagged_DecRef(cpy_r_r58);
-    goto CPyL40;
+    goto CPyL41;
 CPyL58: ;
     CPy_DecRef(cpy_r_r7);
-    CPy_DecRef(cpy_r_r48);
+    CPy_DecRef(cpy_r_r49);
     CPyTagged_DecRef(cpy_r_i);
-    CPy_DecRef(cpy_r_r59);
-    goto CPyL40;
+    CPyTagged_DecRef(cpy_r_r62);
+    goto CPyL41;
 CPyL59: ;
     CPy_DecRef(cpy_r_r7);
-    CPy_DecRef(cpy_r_r48);
+    CPy_DecRef(cpy_r_r49);
     CPyTagged_DecRef(cpy_r_i);
-    CPy_DecRef(cpy_r_r62);
-    goto CPyL40;
+    CPy_DecRef(cpy_r_r63);
+    goto CPyL41;
 CPyL60: ;
     CPy_DecRef(cpy_r_r7);
-    CPy_DecRef(cpy_r_r48);
-    CPy_DecRef(cpy_r_r69);
-    CPy_DecRef(cpy_r_r71);
-    goto CPyL40;
+    CPy_DecRef(cpy_r_r49);
+    CPyTagged_DecRef(cpy_r_i);
+    CPy_DecRef(cpy_r_r66);
+    goto CPyL41;
 CPyL61: ;
-    CPy_DECREF(cpy_r_r75);
-    goto CPyL37;
+    CPy_DecRef(cpy_r_r7);
+    CPy_DecRef(cpy_r_r49);
+    CPy_DecRef(cpy_r_r73);
+    CPy_DecRef(cpy_r_r75);
+    goto CPyL41;
+CPyL62: ;
+    CPy_DECREF(cpy_r_r79);
+    goto CPyL38;
 }
 
 PyObject *CPyPy_Game___show_leaderboard(PyObject *self, PyObject *const *args, size_t nargs, PyObject *kwnames) {
@@ -3128,7 +3206,7 @@ CPyL3: ;
     CPy_INCREF(CPyType_Game);
     cpy_r_r52 = CPyStatic_globals;
     cpy_r_r53 = CPyStatics[65]; /* 'Game' */
-    cpy_r_r54 = CPyDict_SetItem(cpy_r_r52, cpy_r_r53, cpy_r_r36);
+    cpy_r_r54 = PyDict_SetItem(cpy_r_r52, cpy_r_r53, cpy_r_r36);
     CPy_DECREF(cpy_r_r36);
     cpy_r_r55 = cpy_r_r54 >= 0;
     if (unlikely(!cpy_r_r55)) {
@@ -3142,7 +3220,7 @@ CPyL3: ;
         CPy_AddTraceback("main.py", "<module>", 157, CPyStatic_globals);
         goto CPyL26;
     }
-    cpy_r_r59 = _PyObject_Vectorcall(cpy_r_r58, 0, 0, 0);
+    cpy_r_r59 = PyObject_Vectorcall(cpy_r_r58, 0, 0, 0);
     CPy_DECREF(cpy_r_r58);
     if (unlikely(cpy_r_r59 == NULL)) {
         CPy_AddTraceback("main.py", "<module>", 157, CPyStatic_globals);
@@ -3192,7 +3270,7 @@ CPyL20: ;
     cpy_r_r76 = CPyStatic_globals;
     cpy_r_r77 = CPyStatics[69]; /* 'game' */
     cpy_r_r78 = CPyDict_SetItem(cpy_r_r76, cpy_r_r77, cpy_r_r75);
-    CPy_DECREF(cpy_r_r75);
+    CPy_DECREF_NO_IMM(cpy_r_r75);
     cpy_r_r79 = cpy_r_r78 >= 0;
     if (unlikely(!cpy_r_r79)) {
         CPy_AddTraceback("main.py", "<module>", 159, CPyStatic_globals);
@@ -3286,7 +3364,7 @@ const int CPyLit_Tuple[] = {
     2, 9, 34, 1, 11, 1, 4
 };
 const int CPyLit_FrozenSet[] = {0};
-CPyModule *CPyModule_main_internal = NULL;
+CPyModule *CPyModule_main__internal = NULL;
 CPyModule *CPyModule_main;
 PyObject *CPyStatic_globals;
 CPyModule *CPyModule_builtins;
@@ -3301,8 +3379,10 @@ PyTypeObject *CPyType_Game;
 PyObject *CPyDef_Game(PyObject *cpy_r_master);
 PyTypeObject *CPyType_show_leaderboard_Game_env;
 PyObject *CPyDef_show_leaderboard_Game_env(void);
+CPyThreadLocal main___show_leaderboard_Game_envObject *show_leaderboard_Game_env_free_instance;
 PyTypeObject *CPyType___mypyc_lambda__0_show_leaderboard_Game_obj;
 PyObject *CPyDef___mypyc_lambda__0_show_leaderboard_Game_obj(void);
+CPyThreadLocal main_____mypyc_lambda__0_show_leaderboard_Game_objObject *__mypyc_lambda__0_show_leaderboard_Game_obj_free_instance;
 char CPyDef_Game_____init__(PyObject *cpy_r_self, PyObject *cpy_r_master);
 PyObject *CPyPy_Game_____init__(PyObject *self, PyObject *args, PyObject *kw);
 char CPyDef_Game___update(PyObject *cpy_r_self);

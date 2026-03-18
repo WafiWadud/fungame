@@ -1,5 +1,5 @@
-#ifndef MYPYC_NATIVE_INTERNAL_H
-#define MYPYC_NATIVE_INTERNAL_H
+#ifndef MYPYC_LIBRT_INTERNAL_H
+#define MYPYC_LIBRT_INTERNAL_H
 #include <Python.h>
 #include <CPy.h>
 #include "__native.h"
@@ -14,7 +14,7 @@ extern const double CPyLit_Float[];
 extern const double CPyLit_Complex[];
 extern const int CPyLit_Tuple[];
 extern const int CPyLit_FrozenSet[];
-extern CPyModule *CPyModule_main_internal;
+extern CPyModule *CPyModule_main__internal;
 extern CPyModule *CPyModule_main;
 extern PyObject *CPyStatic_globals;
 extern CPyModule *CPyModule_builtins;
@@ -29,8 +29,10 @@ extern PyTypeObject *CPyType_Game;
 extern PyObject *CPyDef_Game(PyObject *cpy_r_master);
 extern PyTypeObject *CPyType_show_leaderboard_Game_env;
 extern PyObject *CPyDef_show_leaderboard_Game_env(void);
+extern CPyThreadLocal main___show_leaderboard_Game_envObject *show_leaderboard_Game_env_free_instance;
 extern PyTypeObject *CPyType___mypyc_lambda__0_show_leaderboard_Game_obj;
 extern PyObject *CPyDef___mypyc_lambda__0_show_leaderboard_Game_obj(void);
+extern CPyThreadLocal main_____mypyc_lambda__0_show_leaderboard_Game_objObject *__mypyc_lambda__0_show_leaderboard_Game_obj_free_instance;
 extern char CPyDef_Game_____init__(PyObject *cpy_r_self, PyObject *cpy_r_master);
 extern PyObject *CPyPy_Game_____init__(PyObject *self, PyObject *args, PyObject *kw);
 extern char CPyDef_Game___update(PyObject *cpy_r_self);
